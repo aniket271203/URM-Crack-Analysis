@@ -1,0 +1,8 @@
+Image: test (44).jpg
+Processed at: 2025-11-13 23:44:04.884197
+============================================================
+CRACK ANALYSIS SUMMARY
+==================================================
+
+Detection: 1 crack(s) detected
+Classification: horizontal (confidence: 94.75%)

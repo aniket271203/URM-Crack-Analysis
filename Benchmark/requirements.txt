@@ -1,0 +1,33 @@
+# Crack Analysis Benchmark Requirements
+# Core dependencies for benchmarking system
+
+# Data handling and analysis
+pandas>=1.5.0
+numpy>=1.24.0
+
+# Computer vision and image processing  
+opencv-python>=4.8.0
+Pillow>=10.0.0
+
+# Machine learning and evaluation
+scikit-learn>=1.3.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0
+
+# Progress bars and utilities
+tqdm>=4.65.0
+
+# System monitoring
+psutil>=5.9.0
+
+# Existing pipeline dependencies (should already be installed)
+# ultralytics  # For YOLO
+# torch        # For PyTorch models
+# tensorflow   # For classification model
+# google-generativeai  # For RAG system
+
+# Optional: GPU monitoring
+# GPUtil>=1.4.0

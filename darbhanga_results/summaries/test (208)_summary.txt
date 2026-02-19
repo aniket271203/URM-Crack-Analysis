@@ -1,0 +1,8 @@
+Image: test (208).jpg
+Processed at: 2025-11-13 23:43:27.618535
+============================================================
+CRACK ANALYSIS SUMMARY
+==================================================
+
+Detection: 1 crack(s) detected
+Classification: vertical (confidence: 100.00%)

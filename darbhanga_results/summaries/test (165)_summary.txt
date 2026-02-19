@@ -1,0 +1,8 @@
+Image: test (165).jpg
+Processed at: 2025-11-13 23:42:26.555930
+============================================================
+CRACK ANALYSIS SUMMARY
+==================================================
+
+Detection: 1 crack(s) detected
+Classification: diagonal (confidence: 100.00%)

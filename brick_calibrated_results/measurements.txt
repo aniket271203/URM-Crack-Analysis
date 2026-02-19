@@ -1,0 +1,14 @@
+BRICK-CALIBRATED CRACK MEASUREMENTS
+==================================================
+
+Image: Test/test_98.jpg
+Brick Type: Indian Modular Brick
+Brick Size: 190 x 90 mm
+Scale Factor: 2.4342 mm/pixel
+Calibration Confidence: 95.00%
+
+Length: 1633.32 mm
+Max Width: 26.22 mm
+Mean Width: 8.84 mm
+Median Width: 9.74 mm
+Area: 14670.69 mm²

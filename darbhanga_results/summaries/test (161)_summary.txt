@@ -1,0 +1,8 @@
+Image: test (161).jpg
+Processed at: 2025-11-13 23:42:18.828847
+============================================================
+CRACK ANALYSIS SUMMARY
+==================================================
+
+Detection: 1 crack(s) detected
+Classification: step (confidence: 100.00%)

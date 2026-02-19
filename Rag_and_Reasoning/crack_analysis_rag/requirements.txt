@@ -1,0 +1,26 @@
+# Structural Crack Analysis RAG System
+# Core dependencies
+google-generativeai>=0.3.0
+sentence-transformers>=2.2.2
+faiss-cpu>=1.7.4
+python-dotenv>=1.0.0
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# Optional: GPU support for FAISS (uncomment if you have GPU)
+# faiss-gpu>=1.7.4
+
+# Development and utilities
+pathlib2>=2.3.7
+typing-extensions>=4.5.0
+
+# Data handling
+pandas>=2.0.0
+json5>=0.9.14
+
+# PDF processing
+PyPDF2>=3.0.0
+pdfplumber>=0.10.0
+
+# Image processing
+opencv-python>=4.8.0

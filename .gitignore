@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Models (large files)
+*.pt
+*.pth
+*.h5
+*.pkl
+*.onnx
+
+# Outputs
+output/
+results/
+inference_results/
+*.jpg
+*.png
+*.jpeg
+!test_images/*.jpg
+!test_images/*.png
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Data
+data/
+*.csv
+*.json
+!**/data/documents.json
+!**/data/metadata.json
+
+
+
+

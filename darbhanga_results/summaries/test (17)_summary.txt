@@ -1,0 +1,8 @@
+Image: test (17).jpg
+Processed at: 2025-11-13 23:42:34.062419
+============================================================
+CRACK ANALYSIS SUMMARY
+==================================================
+
+Detection: 1 crack(s) detected
+Classification: diagonal (confidence: 100.00%)
