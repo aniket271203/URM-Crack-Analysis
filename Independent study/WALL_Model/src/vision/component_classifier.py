@@ -109,7 +109,7 @@ class WallClassifier:
                 # If 'floor' in label: boundary is y.
                 # If 'board' in label: boundary is y + h (bottom of board).
                 
-                current_boundary = y # Default for floor
+                current_boundary = y 
                 if "board" in label:
                     current_boundary = y + h
                     
@@ -134,7 +134,10 @@ class WallClassifier:
                 bbox=[0, wall_top_y, img_w, wall_bottom_y - wall_top_y], 
                 description="No openings detected."
             ))
+            print("No openings detected.")
             return self.components
+        
+        print("Openings detected.")
 
         # 2. Sort Openings
         openings.sort(key=lambda b: (b[1], b[0]))

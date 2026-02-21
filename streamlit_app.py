@@ -170,6 +170,22 @@ if 'pdf_report' not in st.session_state:
     st.session_state.pdf_report = None
 
 
+def reset_image_state():
+    """Reset all image-specific results in session state."""
+    st.session_state.results = None
+    st.session_state.uploaded_image = None
+    st.session_state.uploaded_image_path = None
+    st.session_state.brick_height_px = None
+    st.session_state.scale_mm_per_px = None
+    st.session_state.brick_calibration_done = False
+    st.session_state.click_points = []
+    st.session_state.measurement_results = None
+    st.session_state.location_results = None
+    st.session_state.fema_diagnosis = None
+    st.session_state.wall_components = None
+    st.session_state.pdf_report = None
+
+
 def detect_structural_component(image: np.ndarray, crack_centroid: tuple = None) -> dict:
     """
     Use WALL_Model to detect which structural component contains the crack.
@@ -187,7 +203,7 @@ def detect_structural_component(image: np.ndarray, crack_centroid: tuple = None)
     try:
         # Initialize classifier if needed
         if st.session_state.wall_classifier is None:
-            st.session_state.wall_classifier = WallClassifier(use_ml=False)  # Use heuristic for speed
+            st.session_state.wall_classifier = WallClassifier()  # Use heuristic for speed
         
         classifier = st.session_state.wall_classifier
         
@@ -199,6 +215,7 @@ def detect_structural_component(image: np.ndarray, crack_centroid: tuple = None)
         st.session_state.wall_components = components
         
         if not components or crack_centroid is None:
+            print("No components detected or no crack centroid provided.")
             return {"component_type": "Wall Panel", "component_id": None, "confidence": 0.5}
         
         # Convert normalized centroid to pixel coordinates
@@ -1240,7 +1257,9 @@ def main():
     uploaded_file = st.file_uploader(
         "Choose an image file",
         type=['jpg', 'jpeg', 'png', 'bmp'],
-        help="Upload an image containing potential cracks"
+        help="Upload an image containing potential cracks",
+        on_change=reset_image_state,
+        key="crack_image_uploader"
     )
     
     if uploaded_file is not None:
