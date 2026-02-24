@@ -129,6 +129,35 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# =========================================================================
+# STANDARD IMAGE SIZE - All uploaded images are resized to this width
+# to ensure consistent behavior across small and large images.
+# Aspect ratio is always preserved.
+# =========================================================================
+STANDARD_IMAGE_WIDTH = 1024  # pixels
+
+
+def resize_to_standard(pil_image: Image.Image, target_width: int = STANDARD_IMAGE_WIDTH) -> Image.Image:
+    """
+    Resize a PIL image to a standard width while preserving aspect ratio.
+    Both upsizes and downsizes to ensure all images are at the same scale.
+    
+    Args:
+        pil_image: Input PIL Image.
+        target_width: Desired width in pixels.
+    
+    Returns:
+        Resized PIL Image (or original if already at target width).
+    """
+    w, h = pil_image.size
+    if w == target_width:
+        return pil_image
+    scale = target_width / w
+    new_h = int(h * scale)
+    resample = Image.LANCZOS if scale < 1 else Image.BICUBIC
+    return pil_image.resize((target_width, new_h), resample)
+
+
 # Initialize session state
 if 'pipeline' not in st.session_state:
     st.session_state.pipeline = None
@@ -1153,6 +1182,7 @@ def main():
         
         st.markdown("---")
         st.subheader("📐 Brick Calibration")
+        st.caption(f"📐 All images are standardized to **{STANDARD_IMAGE_WIDTH}px** width for consistent measurements.")
         
         # Brick type selection
         brick_type = st.selectbox(
@@ -1263,11 +1293,16 @@ def main():
     )
     
     if uploaded_file is not None:
-        # Display uploaded image
-        image = Image.open(uploaded_file)
+        # Open and resize to standard size for consistency
+        raw_image = Image.open(uploaded_file)
+        image = resize_to_standard(raw_image, STANDARD_IMAGE_WIDTH)
+        
+        if raw_image.size != image.size:
+            st.caption(f"📐 Image resized from {raw_image.size[0]}×{raw_image.size[1]} → {image.size[0]}×{image.size[1]} (standard width: {STANDARD_IMAGE_WIDTH}px)")
+        
         st.image(image, caption="Uploaded Image")
         
-        # Store image in session state for later use
+        # Store standardized image in session state for later use
         st.session_state.uploaded_image = image
         
         # Analyze button
@@ -1628,18 +1663,9 @@ def main():
                 if IMAGE_COORDINATES_AVAILABLE:
                     st.info("**Instructions:** Click on the **TOP edge** of a brick, then click on the **BOTTOM edge** of the same brick. The vertical distance will be used for calibration.")
                     
-                    # Resize image for display (max 800px width for usability)
-                    h, w = original_img_rgb.shape[:2]
-                    max_width = 800
-                    if w > max_width:
-                        scale_factor = max_width / w
-                        new_w = max_width
-                        new_h = int(h * scale_factor)
-                        display_img = cv2.resize(original_img_rgb, (new_w, new_h))
-                    else:
-                        scale_factor = 1.0
-                        display_img = original_img_rgb
-                        new_w, new_h = w, h
+                    # Image is already standardized to STANDARD_IMAGE_WIDTH,
+                    # so clicks are directly in the working pixel space.
+                    display_img = original_img_rgb.copy()
                     
                     # Draw existing click points on the image
                     display_img_with_points = display_img.copy()
@@ -1686,19 +1712,18 @@ def main():
                     elif len(st.session_state.click_points) == 1:
                         st.warning("👆 Now click on the **BOTTOM edge** of the same brick")
                     elif len(st.session_state.click_points) >= 2:
-                        # Calculate height
+                        # Calculate height — clicks are already in standardized image coords
                         y1 = st.session_state.click_points[0][1]
                         y2 = st.session_state.click_points[1][1]
-                        height_display = abs(y2 - y1)
-                        height_original = height_display / scale_factor
+                        brick_height_px = abs(y2 - y1)
                         
-                        st.success(f"📏 **Measured brick height:** {height_original:.1f} pixels (in original image)")
+                        st.success(f"📏 **Measured brick height:** {brick_height_px:.1f} pixels")
                         
                         col1, col2, col3 = st.columns(3)
                         with col1:
                             if st.button("✅ Apply Calibration", type="primary"):
-                                st.session_state.brick_height_px = height_original
-                                st.session_state.scale_mm_per_px = st.session_state.brick_height_mm / height_original
+                                st.session_state.brick_height_px = brick_height_px
+                                st.session_state.scale_mm_per_px = st.session_state.brick_height_mm / brick_height_px
                                 st.session_state.brick_calibration_done = True
                                 st.session_state.click_points = []
                                 st.success(f"✅ Scale: {st.session_state.scale_mm_per_px:.4f} mm/pixel")
@@ -1708,7 +1733,7 @@ def main():
                                 st.session_state.click_points = []
                                 st.rerun()
                         with col3:
-                            st.write(f"Scale: {st.session_state.brick_height_mm / height_original:.4f} mm/px")
+                            st.write(f"Scale: {st.session_state.brick_height_mm / brick_height_px:.4f} mm/px")
                 
                 else:
                     # Fallback to manual entry if streamlit-image-coordinates not available
