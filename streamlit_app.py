@@ -392,8 +392,11 @@ def build_fema_input(classification_result: dict, measurement_result: dict,
     if measurement_result:
         width_stats = measurement_result.get('width_stats', {})
         max_width_mm = width_stats.get('max_mm', 0)
-        mean_width_mm = width_stats.get('mean_mm', 0)
-        length_mm = measurement_result.get('length_mm', 0)
+        
+        # Use naive length calculation and derived width
+        length_mm = measurement_result.get('length_naive_mm', measurement_result.get('length_mm', 0))
+        area_mm2 = measurement_result.get('area_mm2', 0)
+        mean_width_mm = (area_mm2 / length_mm) if length_mm > 0 else width_stats.get('mean_mm', 0)
         
         if max_width_mm > 0:
             width_str = f"{max_width_mm:.1f}mm"
@@ -667,14 +670,18 @@ def generate_analysis_pdf(
     
     if measurement_results:
         width_stats = measurement_results.get('width_stats', {})
+        length_mm = measurement_results.get('length_naive_mm', measurement_results.get('length_mm', 0))
+        area_mm2 = measurement_results.get('area_mm2', 0)
+        mean_width_mm = (area_mm2 / length_mm) if length_mm > 0 else width_stats.get('mean_mm', 0)
+        
         measurement_data = [
             ["Parameter", "Value", "Unit"],
-            ["Crack Length", f"{measurement_results.get('length_mm', 0):.2f}", "mm"],
+            ["Crack Length", f"{length_mm:.2f}", "mm"],
             ["Maximum Width", f"{width_stats.get('max_mm', 0):.2f}", "mm"],
-            ["Average Width", f"{width_stats.get('mean_mm', 0):.2f}", "mm"],
+            ["Average Width", f"{mean_width_mm:.2f}", "mm"],
             ["Minimum Width", f"{width_stats.get('min_mm', 0):.2f}", "mm"],
             ["95th Percentile Width", f"{width_stats.get('p95_mm', 0):.2f}", "mm"],
-            ["Crack Area", f"{measurement_results.get('area_mm2', 0):.2f}", "mm²"]
+            ["Crack Area", f"{area_mm2:.2f}", "mm²"]
         ]
         
         meas_table = Table(measurement_data, colWidths=[6*cm, 4*cm, 3*cm])
@@ -1850,7 +1857,7 @@ def main():
                     # Run measurement
                     measurement_results = measurer.measure(
                         image=original_img,
-                        mask=mask_for_measurement,
+                        raw_mask=mask_for_measurement,
                         scale_mm_per_px=st.session_state.scale_mm_per_px
                     )
                     st.session_state.measurement_results = measurement_results
@@ -1860,11 +1867,12 @@ def main():
                     # Display metrics
                     col1, col2, col3 = st.columns(3)
                     with col1:
-                        length_mm = measurement_results.get('length_mm', 0)
+                        length_mm = measurement_results.get('length_naive_mm', measurement_results.get('length_mm', 0))
                         st.metric("Crack Length", f"{length_mm:.2f} mm")
                     with col2:
                         width_stats = measurement_results.get('width_stats', {})
-                        avg_width_mm = width_stats.get('mean_mm', 0)
+                        area_mm2 = measurement_results.get('area_mm2', 0)
+                        avg_width_mm = (area_mm2 / length_mm) if length_mm > 0 else width_stats.get('mean_mm', 0)
                         st.metric("Average Width", f"{avg_width_mm:.2f} mm")
                     with col3:
                         max_width_mm = width_stats.get('max_mm', 0)
@@ -1896,8 +1904,11 @@ def main():
                     
                     # Additional details
                     with st.expander("📏 Detailed Measurements"):
+                        area_mm2_ext = measurement_results.get('area_mm2', 0)
+                        length_mm_ext = measurement_results.get('length_naive_mm', measurement_results.get('length_mm', 0))
+                        mean_width_mm_ext = (area_mm2_ext / length_mm_ext) if length_mm_ext > 0 else width_stats.get('mean_mm', 0)
                         st.write(f"**Length (pixels):** {measurement_results.get('skeleton_pixels', 0)} px")
-                        st.write(f"**Average Width (mm):** {width_stats.get('mean_mm', 0):.3f} mm")
+                        st.write(f"**Average Width (mm):** {mean_width_mm_ext:.3f} mm")
                         st.write(f"**Median Width (mm):** {width_stats.get('median_mm', 0):.3f} mm")
                         st.write(f"**Maximum Width (mm):** {width_stats.get('max_mm', 0):.3f} mm")
                         st.write(f"**Minimum Width (mm):** {width_stats.get('min_mm', 0):.3f} mm")
@@ -2158,9 +2169,13 @@ def main():
                     st.markdown("**📏 Brick-Calibrated Measurement (Step 5):**")
                     if measurement_results:
                         width_stats = measurement_results.get('width_stats', {})
+                        length_mm_bm = measurement_results.get('length_naive_mm', measurement_results.get('length_mm', 0))
+                        area_mm2_bm = measurement_results.get('area_mm2', 0)
+                        mean_width_mm_bm = (area_mm2_bm / length_mm_bm) if length_mm_bm > 0 else width_stats.get('mean_mm', 0)
+                        
                         st.write(f"- **Max Width:** `{width_stats.get('max_mm', 0):.2f} mm`")
-                        st.write(f"- Mean Width: {width_stats.get('mean_mm', 0):.2f} mm")
-                        st.write(f"- **Length:** `{measurement_results.get('length_mm', 0):.2f} mm`")
+                        st.write(f"- Mean Width: {mean_width_mm_bm:.2f} mm")
+                        st.write(f"- **Length:** `{length_mm_bm:.2f} mm`")
                         calibration = measurement_results.get('calibration', {})
                         if calibration:
                             st.write(f"- Scale: {calibration.get('avg_scale_mm_per_px', 0):.4f} mm/px")
@@ -2562,14 +2577,18 @@ def main():
             if st.session_state.get('measurement_results'):
                 meas = st.session_state.measurement_results
                 width_stats = meas.get('width_stats', {})
+                length_mm = meas.get('length_naive_mm', meas.get('length_mm', 0))
+                area_mm2 = meas.get('area_mm2', 0)
+                mean_width_mm = (area_mm2 / length_mm) if length_mm > 0 else width_stats.get('mean_mm', 0)
+                
                 meas_csv = f"""Crack Analysis Measurements
-Generated: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+Generated: {{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}}
 
 MEASUREMENTS
 ============
-Crack Length (mm),{meas.get('length_mm', 0) or 0:.2f}
-Maximum Width (mm),{width_stats.get('max_mm', 0) or 0:.2f}
-Average Width (mm),{width_stats.get('mean_mm', 0) or 0:.2f}
+Crack Length (mm),{{length_mm or 0:.2f}}
+Maximum Width (mm),{{width_stats.get('max_mm', 0) or 0:.2f}}
+Average Width (mm),{{mean_width_mm or 0:.2f}}
 Median Width (mm),{width_stats.get('median_mm', 0) or 0:.2f}
 Minimum Width (mm),{width_stats.get('min_mm', 0) or 0:.2f}
 95th Percentile Width (mm),{width_stats.get('p95_mm', 0) or 0:.2f}
