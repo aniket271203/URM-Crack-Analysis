@@ -1,0 +1,26 @@
+\section{Literature Review}
+\label{sec:literature_review}
+
+\begin{sloppypar}
+The field of automated structural health monitoring (SHM) has evolved significantly from traditional signal-processing techniques to advanced deep learning-based computer vision methods \cite{koch2015review, mohan2018crack}. This section reviews the current state of the art in crack detection, wall component analysis, and the emerging role of Large Language Models (LLMs) in structural engineering.
+\end{sloppypar}
+
+\subsection{Traditional and Deep Learning-Based Crack Detection}
+\begin{sloppypar}
+Early methods for crack detection relied heavily on edge detection algorithms such as Canny and Sobel operators, which often struggled with the noise inherent in masonry textures. With the rise of Convolutional Neural Networks (CNNs), researchers have developed more robust architectures like U-Net \cite{ronneberger2015u}, ResNet, and YOLO (You Only Look Once) variants for crack localization and segmentation \cite{yolov8}. Specifically, the DeepCrack architecture \cite{liu2019deepcrack} has shown superior performance in capturing hierarchical features of fissures. However, most existing literature focuses on reinforced concrete (RC) surfaces, leaving Unreinforced Masonry (URM) relatively under-explored despite its complex, textured background \cite{bhowmick2020automated}.
+\end{sloppypar}
+
+\subsection{Image-to-Engineering Gap in Masonry Assessment}
+\begin{sloppypar}
+A critical challenge in masonry assessment is the transition from detecting a "line on a wall" to identifying a "structural failure mode." Standards such as FEMA 306 \cite{fema306} provide detailed guidelines for classifying damage based on crack orientation, width, and location. Recent studies have attempted to automate this by using geometry-based rules or expert systems. However, these systems often lack the flexibility to handle variations in wall geometry. Our work addresses this by integrating Vision-Language Models (VLMs) to provide architectural context, a novelty that bridges the gap between raw computer vision and codified engineering standards.
+\end{sloppypar}
+
+\subsection{Retrieval-Augmented Generation (RAG) in Engineering}
+\begin{sloppypar}
+The application of LLMs in specialized domains like structural engineering is limited by their tendency to hallucinate and their lack of access to domain-specific, non-public standards. Retrieval-Augmented Generation (RAG) \cite{lewis2020retrieval} has emerged as a solution, allowing models to query a curated knowledge base before generating responses. This paradigm often leverages the Transformer architecture's attention mechanism \cite{vaswani2017attention}. While RAG has been applied in legal and medical domains, its application in structural diagnosis for disaster response is a nascent field. This study explores the use of RAG to ground diagnostic reasoning in established engineering manuals, ensuring that the output is not just linguistically coherent but technically accurate.
+\end{sloppypar}
+
+\subsection{Synthetic Data and Domain Adaptation}
+\begin{sloppypar}
+Data scarcity is a major bottleneck in training models for obscure failure modes in URM. Researchers often turn to synthetic data generation using GANs or procedural modeling. Our approach leverages synthetic data generation to overcome the 6-month scarcity of high-quality URM crack datasets, ensuring the model is exposed to a wide variety of "stairstep" and "diagonal tension" patterns that are rarely captured in standard datasets.
+\end{sloppypar}

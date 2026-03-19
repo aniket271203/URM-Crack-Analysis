@@ -1,0 +1,30 @@
+\subsection{High-Fidelity Crack Segmentation and Orientation Classification}
+\label{sec:segmentation_orientation}
+
+\begin{sloppypar}
+The transition from localized bounding boxes to quantitative structural metrics requires a precise pixel-level delineate of the crack morphology. This stage utilizes a dual-model architecture: a multi-scale Hierarchical Side-Output (HSO) segmentation network and a deep semantic orientation classifier.
+\end{sloppypar}
+
+\subsubsection{Multi-Scale Feature Fusion via DeepCrack}
+\begin{sloppypar}
+To accurately delineate crack boundaries within the complex texture of masonry (e.g., mortar lines, weathered brick), we utilize the DeepCrack architecture. The network employs a **VGG-16** encoder as its primary backbone, which is stripped of its fully connected layers to preserve spatial resolution. The architecture implements an HSO mechanism where features from five distinct convolutional stages $\{S_1, S_2, \dots, S_5\}$ are extracted. 
+\end{sloppypar}
+
+\begin{sloppypar}
+Each side-output $S_i$ captures features at a specific scale—ranging from fine edges in the early layers to global connectivity in the deeper layers. These outputs are upsampled via bilinear interpolation and fused using a $1 \times 1$ convolutional kernel to produce the final aggregate mask $\mathcal{M}_{fuse}$. The training process utilizes a **Binary Focal Loss** ($\gamma=2$) to address the extreme class imbalance typical of crack segmentation:
+\end{sloppypar}
+
+\begin{equation}
+    \mathcal{L}_{focal} = -\alpha (1 - p_t)^\gamma \log(p_t)
+\end{equation}
+
+\noindent where $p_t$ is the model's estimated probability for the crack class. Furthermore, the segmentation is refined using an adversarial training framework (GAN), where a generator $G$ produces high-resolution masks and a discriminator $D$ ensures the masks remain morphologically continuous and grounded in the ROI texture.
+
+\subsubsection{Semantic Orientation Classification}
+\begin{sloppypar}
+In parallel with segmentation, a dedicated Convolutional Neural Network (CNN) classifier determines the structural orientation $\theta \in \{\text{Vertical, Horizontal, Diagonal, Stepped}\}$. To ensure the classifier focuses solely on morphological patterns rather than surface artifacts, it operates on $256 \times 256$ grayscale versions of the binary masks. 
+\end{sloppypar}
+
+\begin{sloppypar}
+The classifier utilizes a series of residual blocks to extract high-level semantic features, producing a probability distribution over the four structural categories. This semantic labeling is critical for the RAG-based diagnosis, as failure modes in **FEMA 306** (e.g., Bed Joint Sliding vs. Diagonal Tension) are highly sensitive to whether the crack is "Stepped" (following brick joints) or "Diagonal" (passing through units).
+\end{sloppypar}

@@ -1,0 +1,26 @@
+\subsection{Probabilistic Spatial Mapping and Damage Propagation Analysis}
+\label{sec:crack_location}
+
+\begin{sloppypar}
+To provide the RAG agent with an interpretable spatial context, we implement a probabilistic mapping mechanism that identifies the topological distribution of damage across the masonry wall. This stage moves beyond hard bounding box constraints to model the crack as a continuous spatial density function.
+\end{sloppypar}
+
+\subsubsection{Soft Spatial Grid and Heatmap Estimation}
+\begin{sloppypar}
+The masonry surface is partitioned into a $5 \times 5$ soft spatial grid $\mathcal{G}$. For each crack pixel $(y, x)$ in the segmentation mask, we perform an **Area-Weighted Voting** operation. The coordinates are normalized to $[0, 1]$ and mapped to grid cells $\{g_{i,j}\}$, where the cell weight is incremented. The resulting density grid $D$ is then processed using a **Gaussian Heatmap Smoothing** function with $\sigma = 1.0$:
+\end{sloppypar}
+
+\begin{equation}
+    H(y_{img}, x_{img}) = \sum_{(y,x) \in \mathcal{M}} \exp \left( -\frac{(y_{img}-y)^2 + (x_{img}-x)^2}{2\sigma^2} \right)
+\end{equation}
+
+\noindent This heatmap $H$ provides a continuous probability distribution of damage. By aggregating these values across semantic region boundaries (e.g., upper, middle, lower), we derive probabilistic labels like "upper-right" or "lower-center," which are essential for structural context (e.g., distinguishing flexural cracks in spandrels from shear cracks in piers).
+
+\subsubsection{Origin Inference and Propagation Logic}
+\begin{sloppypar}
+A critical aspect of our implementation is the inference of crack propagation direction. We distinguish between the crack's **Origin** (primary) and its **Terminus** (secondary) based on local morphological intensity. In URM, cracks typically originate at regions of maximum principal stress—where the opening is widest and deepest—and taper off as they propagate toward the wall's compressive boundaries. 
+\end{sloppypar}
+
+\begin{sloppypar}
+The system calculates the average pixel density in a neighborhood $\mathcal{R}$ around the geometric endpoints. Let $I(p)$ be the local intensity at endpoint $p$. The origin $P_o$ is identified as the endpoint with higher local intensity, and the propagation vector $\vec{v}$ is formed as $\vec{v} = P_t - P_o$, where $P_t$ is the terminus. This results in directional labels such as "lower-left $\rightarrow$ upper-right," providing the RAG agent with crucial information about the damage mechanism's evolution.
+\end{sloppypar}

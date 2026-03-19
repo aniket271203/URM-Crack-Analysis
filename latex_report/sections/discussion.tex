@@ -1,0 +1,21 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\begin{sloppypar}
+The results demonstrate that the hierarchical synthesis of computer vision and linguistic reasoning provides a feasible path toward autonomous structural assessment. This section discusses the implications of these findings, the limitations of the current system, and the broader impact on disaster response.
+\end{sloppypar}
+
+\subsection{Bridging the Semantic Gap}
+\begin{sloppypar}
+Traditional CV models for structural inspection are often "geometry-blind." By integrating architectural decomposition, our pipeline ensures that every detected crack is contextualized. This mirrors the cognitive process of a professional inspector, who evaluates damage not just by its size, but by its \textit{location} and \textit{orientation} relative to the structural system. This shift from pixel-level detection to component-level diagnosis is a significant step toward engineering-grade automation.
+\end{sloppypar}
+
+\subsection{Robustness and the Role of Synthetic Data}
+\begin{sloppypar}
+The successful use of synthetic data to overcome the 6-month data scarcity highlights a critical strategy for niche engineering domains. As URM failures are fortunately rare in non-seismic periods, the ability to "engineer" training data ensures that models remain "seismic-ready." However, the "sim-to-real" gap remains a factor, and further research into more sophisticated domain randomization techniques is warranted.
+\end{sloppypar}
+
+\subsection{Limitations and Future Work}
+\begin{sloppypar}
+While the RAG pipeline is highly accurate for well-documented failure modes in FEMA 306, it may struggle with "novel" damage patterns not present in the knowledge base. Furthermore, the 2D nature of the input imagery limits the assessment of out-of-plane deformations. Future iterations will explore the integration of 3D depth data and temporal analysis for monitoring damage propagation over time.
+\end{sloppypar}

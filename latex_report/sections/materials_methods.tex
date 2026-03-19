@@ -1,0 +1,59 @@
+\section{Materials and Methods}
+\label{sec:materials_methods}
+
+\subsection{Data Collection and the Paradox of Scarcity}
+\label{subsec:data_collection}
+
+\begin{sloppypar}
+The development of a robust vision-based assessment system for Unreinforced Masonry (URM) is fundamentally constrained by the availability of high-quality, annotated datasets. Historically, the domain of structural damage datasets has been dominated by reinforced concrete (RC) pavement cracks and bridge deck fissures. Data specifically targeting domestic URM buildings—especially those exhibiting complex failure modes like bed-joint sliding or diagonal shear—is remarkably scarce.
+\end{sloppypar}
+
+\begin{sloppypar}
+For a period of approximately six months, we conducted an exhaustive search across public repositories, academic datasets, and disaster archives (including post-earthquake documentation from Italy, Turkey, and Nepal). However, we encountered a significant "data bottleneck." Most available images were either too low in resolution for pixel-level segmentation or lacked the necessary metadata to distinguish between superficial cosmetic cracks and structurally significant ones.
+\end{sloppypar}
+
+\begin{sloppypar}
+To overcome this limitation, we pivoted to a \textbf{sythetic data generation strategy}. By developing a procedural damage simulation engine, we were able to synthesize thousands of URM images. This engine simulates brick textures, mortar joints, and applies physics-informed crack patterns (e.g., stairstep cracks following mortar paths). This synthetic augmentation allowed us to train our models on a balanced distribution of failure modes that are rarely encountered in the wild but are critical for structural safety.
+\end{sloppypar}
+
+\subsection{Image Preprocessing and Dataset Detailing}
+\label{subsec:preprocessing}
+
+\begin{sloppypar}
+Before being fed into the hierarchical CV pipeline, all images—both real and synthetic—undergo a standardized preprocessing workflow. This includes:
+\begin{enumerate}
+    \item \textbf{Geometric Normalization:} Resizing to $1024 \times 1024$ pixels while maintaining aspect ratio.
+    \item \textbf{Texture Augmentation:} Histogram equalization to handle varying lighting conditions typical of post-disaster scenarios.
+    \item \textbf{Noise Reduction:} Gaussian blurring to minimize high-frequency noise from brick surface roughness without degrading crack edges.
+\end{enumerate}
+\end{sloppypar}
+
+\begin{sloppypar}
+[Space for further dataset explanation and detailing, including classes and distribution]
+\end{sloppypar}
+
+\subsection{Proposed Hierarchical Framework Architecture}
+\label{subsec:architecture}
+
+\begin{sloppypar}
+The proposed pipeline is structured as a hierarchical multi-stage system. It begins with a coarse-to-fine localization strategy using YOLOv8, followed by a semantic segmentation layer for precise width measurement. The integration of Vision-Language Models (VLMs) allows for zero-shot architectural partitioning, while the final diagnostic layer utilizes a RAG-based reasoning engine.
+\end{sloppypar}
+
+\subsection{Model Evaluation Metrics}
+\label{subsec:metrics}
+
+\begin{sloppypar}
+To quantitatively validate each stage of the pipeline, we utilize a suite of metrics:
+\begin{itemize}
+    \item \textbf{Localization:} Mean Average Precision ($mAP_{50}$) for YOLO-based detection.
+    \item \textbf{Segmentation:} Intersection-over-Union (IoU) and F1-score for crack pixel identification.
+    \item \textbf{Diagnosis:} Retrieval precision and recall for the RAG pipeline, and LLM-based consistency checks for the final report.
+\end{itemize}
+\end{sloppypar}
+
+\subsection{Implementation of Multimodal Integration}
+\label{subsec:multimodal}
+
+\begin{sloppypar}
+The core novelty of our approach lies in the multimodal integration of visual features (crack geometry) and linguistic context (wall component labels). This is implemented through a unified "Structural Context Vector," which maps detected fissures to their corresponding architectural anchors (piers or spandrels). This vector is then used to prompt the RAG engine, ensuring that the diagnosis is spatially grounded.
+\end{sloppypar}

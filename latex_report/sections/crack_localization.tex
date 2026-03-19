@@ -1,0 +1,45 @@
+\subsection{Adaptive Damage Localization via YOLOv8 Deep Learning}
+\label{sec:crack_localization}
+
+\begin{sloppypar}
+The initial stage of our structural assessment pipeline involves the rapid localization of damage features within high-resolution imagery. We employ the state-of-the-art YOLOv8 (You Only Look Once) architecture, specifically the \texttt{yolov8n} (nano) variant, fine-tuned for the binary detection of masonry cracks. This stage serves as a critical spatial filter, isolating Regions of Interest (RoIs) for high-fidelity morphological analysis and reducing the computational overhead of downstream pixel-level processing.
+\end{sloppypar}
+
+\subsubsection{Architectural Paradigm: C2f and SPPF Modules}
+\begin{sloppypar}
+Unlike its predecessors, the YOLOv8 architecture utilizes a backbone characterized by the Cross-Stage Partial Bottleneck with two convolutions (\textbf{C2f}) module. This module enhances gradient flow and feature representation by concatenating the outputs of multiple bottleneck layers, allowing the network to capture complex crack textures at various scales. To provide a global receptive field, the architecture integrates a Spatial Pyramid Pooling - Fast (\textbf{SPPF}) layer at the bottleneck. The SPPF module performs successive max-pooling operations to extract multi-scale context, which is essential for distinguishing structural cracks from surface irregularities such as shadows or mortar joints.
+\end{sloppypar}
+
+\subsubsection{Training Protocol and Optimization}
+\begin{sloppypar}
+The model was optimized using the \textbf{Adam} optimizer with an initial learning rate $\eta = 0.001$, governed by a **Cosine Learning Rate Decay** schedule to ensure stable convergence. To enhance the model's robustness against the heterogeneous nature of disaster-site imagery, we implemented a heavy data augmentation pipeline, including:
+\end{sloppypar}
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Mosaic Augmentation:} Combining four training images into one to expose the model to varying object scales and occlusion patterns.
+    \item \textbf{HSV Jittering:} Randomized adjustments to Hue, Saturation, and Value to simulate different lighting conditions.
+    \item \textbf{Geometric Transforms:} Random rotations and flipping to ensure orientation-agnostic localization.
+\end{itemize}
+
+\begin{sloppypar}
+The training objective minimizes a composite loss function $\mathcal{L}_{total}$, comprising Distribution Focal Loss ($\mathcal{L}_{dfl}$) for precise bounding box regression and Binary Cross-Entropy for classification.
+\end{sloppypar}
+
+\subsubsection{Performance Evaluation}
+\noindent The localization model demonstrated exceptional performance on the validation set after 10 epochs of training. The specific metrics achieved are summarized below:
+
+\begin{itemize}[noitemsep,leftmargin=1.5em]
+    \item \textbf{Precision ($P$):} $0.933$
+    \item \textbf{Recall ($R$):} $0.930$
+    \item \textbf{Mean Average Precision ($mAP_{50}$):} $0.962$
+    \item \textbf{Mean Average Precision ($mAP_{50-95}$):} $0.715$
+\end{itemize}
+
+\begin{sloppypar}
+These high-fidelity results ensure that the pipeline can reliably anchor the diagnostic process on actual damage sites, effectively eliminating false positives from non-structural surface features.
+\end{sloppypar}
+
+\subsubsection{Dynamic Region of Interest (RoI) Generation}
+\begin{sloppypar}
+Each detected instance $d_j$ is represented by a bounding box $B_j = [x_1, y_1, x_2, y_2]$. To ensure sufficient context for the subsequent segmentation network, the localized boxes are dynamically expanded by a padding factor $\epsilon = 0.1 \times \max(w, h)$. This expansion prevents the "clipping" of crack tips, which are critical for determining propagation direction and structural risk. The resulting RoIs are cropped and normalized for the morphological extraction stage.
+\end{sloppypar}

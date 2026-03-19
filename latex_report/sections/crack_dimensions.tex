@@ -1,0 +1,30 @@
+\subsection{Quantitative Dimensional Measurement via Brick-Calibrated Scaling}
+\label{sec:crack_dimensions}
+
+\begin{sloppypar}
+The final stage of the quantitative feature extraction pipeline involves the precise measurement of crack width ($w$) and length ($L$) in metric units (mm). Unlike traditional computer vision approaches that require external markers (e.g., ArUco), we implement an autonomous **Brick-Calibrated** measurement system that leverages the periodic nature of masonry patterns for scale normalization.
+\end{sloppypar}
+
+\subsubsection{Autonomous Scale Calibration via Pattern Recognition}
+\begin{sloppypar}
+To establish the pixel-to-mm scale factor $\zeta$, the system detects the repetitive brick courses within the masonry wall. We utilize a multi-method consensus approach to determine the brick height ($h_{px}$) in pixels:
+\end{sloppypar}
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Mortar Line Detection:} Morphological closing using a $30 \times 1$ horizontal kernel $K_h$ to enhance mortar joints, followed by a peak-finding algorithm over the vertical projection.
+    \item \textbf{Frequency Analysis (FFT):} Applying a 2D Fast Fourier Transform to the local ROI to identify the dominant periodic frequency $f_v$ corresponding to the vertical spacing of courses.
+\end{enumerate}
+
+\noindent Given the known physical brick height $h_{mm}$ (e.g., 90mm for Indian Modular bricks), the vertical scale factor is derived as $\zeta_y = h_{mm} / h_{px}$. This autonomous calibration ensures that the measurement system is robust to camera perspective and distance without manual intervention.
+
+\subsubsection{Morphological Dimensional Extraction}
+\begin{sloppypar}
+Building on the segmented mask $\mathcal{M}$, we perform a morphological derivation of the crack's geometric properties. To measure the crack length $L_{mm}$, the mask is reduced to its topological skeleton $\mathcal{S}$ using iteratively shrinking operations:
+\end{sloppypar}
+
+\begin{equation}
+    L_{mm} = \zeta \cdot \sum_{(y,x) \in \mathcal{S}} \sqrt{\Delta y^2 + \Delta x^2}
+\end{equation}
+
+\noindent For high-fidelity width ($w$) estimation, we implement a **Euclidean Distance Transform (EDT)** on the binary mask. For each pixel $p$ on the skeleton $\mathcal{S}$, the EDT calculates the distance $R(p)$ to the nearest background pixel. The crack width at any point $p$ is then $w(p) = 2 \cdot R(p)$. We derive a set of statistical width metrics—including $w_{max}$, $w_{median}$, and $w_{95}$ (95th percentile width)—to provide a comprehensive severity profile for the RAG-based assessment. This granular measurement is critical for FEMA 306 compliance, where damage levels (Fine, Moderate, Severe) are strictly discretized at $1.0mm$ and $5.0mm$ thresholds.
+\end{sloppypar}

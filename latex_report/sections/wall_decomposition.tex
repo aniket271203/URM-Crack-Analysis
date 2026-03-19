@@ -1,0 +1,30 @@
+\subsection{Procedural Decomposition and Semantic Mapping of Masonry Wall Components}
+\label{sec:wall_decomposition}
+
+\begin{sloppypar}
+A fundamental challenge in the automated structural assessment of Unreinforced Masonry (URM) buildings is the transition from raw pixel-level data to a semantically rich structural model. In engineering practice, the global response of a masonry wall to lateral seismic forces is governed by the behavior of its primary sub-assemblages: \textbf{Piers} (vertical elements) and \textbf{Spandrels} (horizontal elements above and below openings). We propose a two-stage procedural decomposition framework that identifies these critical structural members based on detected architectural discontinuities, creating a "topological anchor" for crack-to-component mapping.
+\end{sloppypar}
+
+\subsubsection{Phase I: Zero-Shot Detection of Structural Discontinuities}
+\begin{sloppypar}
+To ensure the pipeline is robust to heterogeneous masonry textures without requiring extensive retraining, we utilize the **Open-World Localization Transformer (OWL-ViT)** \cite{owlvit}. Unlike traditional detectors that require fixed class labels, OWL-ViT enables the detection of architectural boundaries (e.g., floor slabs, roof lines) and openings (e.g., windows, archways) using open-vocabulary semantic queries, drawing on recent advances in open-world object detection \cite{mindermann2023open}. We utilize the \texttt{google/owlvit-base-patch32} checkpoint to locate the global vertical constraints ($Y_{top}$, $Y_{bottom}$) and opening coordinates.
+\end{sloppypar}
+
+\begin{sloppypar}
+In scenarios where VLM confidence drops below $\tau=0.05$, the system triggers an \textbf{Heuristic Fallback Mechanism} using classical computer vision. This involves a Gaussian smoothing kernel $(\sigma=5)$ and Canny edge detection with hysteresis thresholds $[50, 150]$. Contours are filtered based on a minimum area criterion $A_{min} = 1\%$ of image resolution. The intersection of VLM proposals and heuristic contours identifies the definitive "structural voids" in the wall.
+\end{sloppypar}
+
+\subsubsection{Phase II: Algorithmic Partitioning of Piers and Spandrels}
+\begin{sloppypar}
+Following void detection, a procedural projection algorithm partitions the masonry surface. The logic mimics the "equivalent frame method" used in structural analysis:
+\end{sloppypar}
+
+\begin{enumerate}[leftmargin=*,itemsep=1pt]
+    \item \textbf{Vertical Partitioning (Piers):} The X-coordinates of detected openings define vertical intervals $X_{intervals}$. For each interval $[x_i, x_{i+1}]$ that does not overlap with an opening, the region is classified as a \textbf{Pier}. This ensures that vertical load paths are continuous from roof to foundation.
+    \item \textbf{Horizontal Partitioning (Spandrels):} For intervals that coincide with openings, the system splits the masonry at the opening boundaries. Regions above and below the openings ($y \in [Y_{top}, y_{opening}]$ and $y \in [y_{opening}+h, Y_{bottom}]$) are semantically labeled as \textbf{Spandrels}.
+\end{enumerate}
+
+\subsubsection{Significance in Seismic Load-Path Analysis}
+\begin{sloppypar}
+This procedural decomposition is critical for the RAG-based diagnosis. According to **FEMA 306**, the expected failure mode is a function of the element's aspect ratio and boundary conditions. For instance, a "diagonal tension" crack in a pier indicates a brittle shear failure, whereas a "rocking" pattern indicates a more ductile flexural response. By automating this partitioning, our framework provides the RAG agent with the architectural context necessary to distinguish between these catastrophic and non-catastrophic damage mechanisms.
+\end{sloppypar}

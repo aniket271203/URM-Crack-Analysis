@@ -1,0 +1,32 @@
+\section{Introduction}
+\label{sec:introduction}
+
+\begin{sloppypar}
+The structural assessment of Unreinforced Masonry (URM) buildings following catastrophic events, such as seismic activity or urban warfare, is a fundamental pillar of disaster resilience and humanitarian recovery \cite{cervenka2020computer}. URM structures, characterized by their high mass and low tensile capacity, remain one of the most vulnerable construction typologies globally. Recent seismic events in high-seismicity regions (e.g., the 2015 Gorkha earthquake in Nepal, the 2023 Turkey-Syria earthquake sequence) have underscored the critical need for rapid, scalable, and engineering-grade damage evaluation. Traditionally, this process relies on "Rapid Visual Screening" (RVS) performed by human inspectors. However, manual inspections are inherently subjective, time-intensive, and often lack the quantitative grounding required for deterministic "safe/unsafe" occupancy labeling. 
+\end{sloppypar}
+
+\subsection{Evolution of Computer Vision in Structural Inspection}
+\begin{sloppypar}
+The advent of Deep Learning (DL) has catalyzed a paradigm shift in structural health monitoring (SHM). Convolutional Neural Networks (CNNs) and transformer-based architectures, such as YOLOv8 and ResNet, have demonstrated exceptional performance in localized crack detection and multi-class damage classification. Despite these advances, a significant "diagnostic gap" persists. While state-of-the-art models can identify pixel-level fissures with high precision, they typically lack the semantic context required to interpret the \textit{structural significance} of a crack. In the domain of professional structural engineering—specifically as defined by standards such as \textbf{FEMA 306}—a crack is not merely a geometric abnormality; it is a manifestation of a specific failure mechanism (e.g., Toe Crushing, Bed Joint Sliding, or Diagonal Tension) determined by the crack's morphology, its location within the wall assembly (pier vs. spandrel), and its propagation history.
+\end{sloppypar}
+
+\subsection{The Semantic Challenge: Pixel-Level vs. Engineering-Grade Diagnosis}
+\begin{sloppypar}
+Existing automated systems often treat crack detection as a generic object detection task, ignoring the procedural decomposition of the wall itself. A $5mm$ diagonal crack in the center of a pier indicates a fundamentally different structural risk than a similar crack at a spandrel-pier intersection. Bridging this gap requires a multi-modal synthesis of three distinct data streams: (1) high-fidelity morphological features (width, length, orientation), (2) architectural context (wall component partitioning), and (3) codified engineering knowledge (RAG-based inference). 
+\end{sloppypar}
+
+\subsection{Research Contributions and Framework Overview}
+\begin{sloppypar}
+This paper proposes an integrated, hierarchical framework for the autonomous assessment of masonry walls, transitioning from raw imagery to auditable engineering reports. The core contributions of this research are fourfold:
+\end{sloppypar}
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Hierarchical Multi-Stage CV Pipeline:} We implement a tiered approach using YOLOv8 for rapid localization and a GAN-refined DeepCrack architecture for pixel-level morphological extraction, ensuring robust performance across varying textures and scales.
+    \item \textbf{Autonomous Scale Calibration via Pattern Recognition:} We introduce a novel calibration logic that leverages the periodic nature of brick courses (via FFT and morphological projection) to establish a pixel-to-mm scale factor without the need for external markers.
+    \item \textbf{Vision-Language Wall Decomposition:} Utilizing zero-shot Vision-Language Models (VLMs) and procedural computer vision, we decompose wall structures into their constituent piers and spandrels, providing the "topological anchor" needed for structural mapping.
+    \item \textbf{Knowledge-Based RAG Inferece with Hybrid Scoring:} We propose a two-layer RAG architecture that queries digitized FEMA 306 standards to generate diagnostic reports. To ensure reliability, we introduce a \textbf{Hybrid Confidence Scoring (HCS)} mechanism that ensembles LLM self-confidence, retrieval distance, and cross-encoder re-ranking.
+\end{enumerate}
+
+\begin{sloppypar}
+The remainder of this paper is organized as follows: Section \ref{sec:literature_review} provides a comprehensive review of existing methodologies; Section \ref{sec:materials_methods} details the proposed hierarchical framework, including data collection and preprocessing; Section \ref{sec:results} presents the experimental validation and detailed analysis of the pipeline's performance; Section \ref{sec:discussion} discusses the implications and limitations of the study; and Section \ref{sec:conclusion} concludes the paper with future research directions.
+\end{sloppypar}
