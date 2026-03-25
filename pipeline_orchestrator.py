@@ -325,8 +325,19 @@ class CrackAnalysisPipeline:
             print("STEP 1: Crack Detection (YOLO)")
             print("="*50)
             
+            import cv2
+            orig_img = cv2.imread(image_path)
+            orig_h, orig_w = orig_img.shape[:2]
+            
+            # Scale exactly as Streamlit used to (1024 width) for YOLO
+            target_width = 1024
+            scale = target_width / orig_w
+            new_width = target_width
+            new_height = int(orig_h * scale)
+            resized_for_yolo = cv2.resize(orig_img, (new_width, new_height))
+            
             detection_results = self.yolo_detector(
-                image_path,
+                resized_for_yolo,
                 conf=0.25,
                 iou=0.45,
                 device=self.yolo_device
@@ -342,6 +353,10 @@ class CrackAnalysisPipeline:
                 
                 for box, conf, cls in zip(boxes, confidences, classes):
                     x1, y1, x2, y2 = box
+                    # Map boxes back to original image size
+                    x1, x2 = x1 / scale, x2 / scale
+                    y1, y2 = y1 / scale, y2 / scale
+                    
                     detections.append({
                         'bbox': [int(x1), int(y1), int(x2), int(y2)],
                         'confidence': float(conf),

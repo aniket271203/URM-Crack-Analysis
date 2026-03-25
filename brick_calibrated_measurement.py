@@ -1104,6 +1104,8 @@ Examples:
                        help='Output directory')
     parser.add_argument('--show-detection', action='store_true',
                        help='Show brick detection visualization')
+    parser.add_argument('--join-dist', type=int, default=30,
+                       help='Max pixel distance to join disconnected crack fragments (default: 30)')
     
     args = parser.parse_args()
     
@@ -1217,7 +1219,7 @@ Examples:
     
     measurer = CrackMeasurerWithBrickCalibration()
     results = measurer.measure(
-        image, raw_mask, detection.avg_scale_mm_per_px, join_threshold=30
+        image, raw_mask, detection.avg_scale_mm_per_px, join_threshold=args.join_dist
     )
     
     # Generate skeleton visualizations

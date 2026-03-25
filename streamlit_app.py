@@ -130,17 +130,15 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =========================================================================
-# STANDARD IMAGE SIZE - All uploaded images are resized to this width
-# to ensure consistent behavior across small and large images.
-# Aspect ratio is always preserved.
+# STANDARD IMAGE SIZE - Deprecated
+# We now process images at their original resolution for accurate crack measurement.
 # =========================================================================
-STANDARD_IMAGE_WIDTH = 1024  # pixels
+STANDARD_IMAGE_WIDTH = 1024  # pixels - Kept for reference only
 
 
 def resize_to_standard(pil_image: Image.Image, target_width: int = STANDARD_IMAGE_WIDTH) -> Image.Image:
     """
-    Resize a PIL image to a standard width while preserving aspect ratio.
-    Both upsizes and downsizes to ensure all images are at the same scale.
+    Deprecated: No longer used to preserve the original image resolution.
     
     Args:
         pil_image: Input PIL Image.
@@ -1200,7 +1198,7 @@ def main():
         
         st.markdown("---")
         st.subheader("📐 Brick Calibration")
-        st.caption(f"📐 All images are standardized to **{STANDARD_IMAGE_WIDTH}px** width for consistent measurements.")
+        st.caption("📐 Measurements run on the **original image resolution** for maximum accuracy.")
         
         # Brick type selection
         brick_type = st.selectbox(
@@ -1311,16 +1309,13 @@ def main():
     )
     
     if uploaded_file is not None:
-        # Open and resize to standard size for consistency
+        # Open original image
         raw_image = Image.open(uploaded_file)
-        image = resize_to_standard(raw_image, STANDARD_IMAGE_WIDTH)
-        
-        if raw_image.size != image.size:
-            st.caption(f"📐 Image resized from {raw_image.size[0]}×{raw_image.size[1]} → {image.size[0]}×{image.size[1]} (standard width: {STANDARD_IMAGE_WIDTH}px)")
+        image = raw_image  # Use original size
         
         st.image(image, caption="Uploaded Image")
         
-        # Store standardized image in session state for later use
+        # Store original image in session state for later use
         st.session_state.uploaded_image = image
         
         # Analyze button
@@ -1899,20 +1894,24 @@ def main():
                         col1, col2 = st.columns(2)
                         
                         with col1:
+                            # Create skeleton overlay on original image
+                            overlay_img = original_img.copy()
+                            # Make skeleton thicker for visibility
+                            kernel = np.ones((3, 3), np.uint8)
+                            skeleton_thick = cv2.dilate(skeleton.astype(np.uint8) * 255, kernel, iterations=1)
+                            # Draw thick red line
+                            overlay_img[skeleton_thick > 0] = [0, 0, 255] # BGR Red
+                            # Convert BGR to RGB for Streamlit displaying correctly
+                            overlay_img_rgb = cv2.cvtColor(overlay_img, cv2.COLOR_BGR2RGB)
+                            st.image(overlay_img_rgb, caption="Crack Skeleton Overlay on Original Image")
+                        
+                        with col2:
                             # Create skeleton overlay on mask
                             h, w = mask_for_measurement.shape[:2]
                             skeleton_viz = np.zeros((h, w, 3), dtype=np.uint8)
                             skeleton_viz[:, :, 0] = (binary_mask * 255).astype(np.uint8)  # Mask in blue
-                            # Make skeleton thicker for visibility
-                            kernel = np.ones((3, 3), np.uint8)
-                            skeleton_thick = cv2.dilate(skeleton.astype(np.uint8) * 255, kernel, iterations=1)
                             skeleton_viz[skeleton_thick > 0] = [0, 0, 255]  # Red skeleton
                             st.image(skeleton_viz, caption="Crack Skeleton (Red) on Segmentation Mask")
-                        
-                        with col2:
-                            # Skeleton only
-                            skeleton_only = (skeleton.astype(np.uint8) * 255)
-                            st.image(skeleton_only, caption="Skeleton Path (used for length calculation)")
                     
                     # Additional details
                     with st.expander("📏 Detailed Measurements"):
@@ -2598,15 +2597,15 @@ Generated: {{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}}
 
 MEASUREMENTS
 ============
-Crack Length (mm),{{length_mm or 0:.2f}}
-Maximum Width (mm),{{width_stats.get('max_mm', 0) or 0:.2f}}
-Average Width (mm),{{mean_width_mm or 0:.2f}}
-Median Width (mm),{width_stats.get('median_mm', 0) or 0:.2f}
-Minimum Width (mm),{width_stats.get('min_mm', 0) or 0:.2f}
-95th Percentile Width (mm),{width_stats.get('p95_mm', 0) or 0:.2f}
-Crack Area (mm²),{meas.get('area_mm2', 0) or 0:.2f}
+Crack Length (mm),{float(length_mm or 0):.2f}
+Maximum Width (mm),{float(width_stats.get('max_mm') or 0):.2f}
+Average Width (mm),{float(mean_width_mm or 0):.2f}
+Median Width (mm),{float(width_stats.get('median_mm') or 0):.2f}
+Minimum Width (mm),{float(width_stats.get('min_mm') or 0):.2f}
+95th Percentile Width (mm),{float(width_stats.get('p95_mm') or 0):.2f}
+Crack Area (mm²),{float(meas.get('area_mm2') or 0):.2f}
 Skeleton Pixels,{meas.get('skeleton_pixels', 0)}
-Scale (mm/px),{st.session_state.get('scale_mm_per_px', 0):.4f}
+Scale (mm/px),{float(st.session_state.get('scale_mm_per_px') or 0):.4f}
 """
                 st.download_button(
                     "📊 Download Measurements (CSV)",
