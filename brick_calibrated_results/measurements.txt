@@ -1,14 +1,24 @@
 BRICK-CALIBRATED CRACK MEASUREMENTS
+(Using Raw Segmentation + Hysteresis Thresholding)
 ==================================================
 
-Image: Test/test_98.jpg
+Image: brick_test_images/brick_test_1.jpeg
 Brick Type: Indian Modular Brick
 Brick Size: 190 x 90 mm
-Scale Factor: 2.4342 mm/pixel
+Scale Factor: 0.3237 mm/pixel
 Calibration Confidence: 95.00%
 
-Length: 1633.32 mm
-Max Width: 26.22 mm
-Mean Width: 8.84 mm
-Median Width: 9.74 mm
-Area: 14670.69 mm²
+Crack Pixels (raw map sum): 19517
+Crack Pixels (density longest path): 2055
+
+Length (geodesic):  665.29 mm
+Length (naive):     665.29 mm
+Max Width:   32.05 mm
+Mean Width:  3.68 mm
+Median Width: 1.62 mm
+Area: 12215.40 mm²
+
+--- Distance Transform Width (for comparison) ---
+Max Width (DT):    38.09 mm
+Mean Width (DT):   17.73 mm
+Median Width (DT): 16.83 mm

@@ -401,8 +401,9 @@ class CrackAnalysisPipeline:
             print("STEP 2: Image Segmentation & Classification")
             print("="*50)
             
-            # Load original image for cropping
+            # Load original image
             original_image = cv2.imread(image_path)
+            img_height, img_width = original_image.shape[:2]
             
             # Process each detected crack region
             all_masks = []
@@ -410,84 +411,61 @@ class CrackAnalysisPipeline:
             best_classification = None
             highest_confidence = 0.0
             
+            # Since the user requested using the FULL image for segmentation and classification
+            # instead of cropped regions (to avoid missing parts of crack due to inaccurate boxes),
+            # we run the models ONCE on the full image to save computation time.
+            print("\nRunning segmentation on the full image...")
+            full_mask = self.segmentation_model.segment(image_path)
+            print("Running classification on the full image...")
+            full_crack_type, full_confidence = self.classification_model.classify(full_mask)
+            
             for i, detection in enumerate(detections):
                 bbox = detection['bbox']
                 x1, y1, x2, y2 = bbox
-                print(f"\nProcessing crack region {i+1}/{num_cracks}: bbox [{x1}, {y1}, {x2}, {y2}]")
+                print(f"\nProcessing region {i+1}/{num_cracks} (Using full image): bbox [{x1}, {y1}, {x2}, {y2}]")
                 
-                # Add padding around bounding box (10% of bbox dimensions)
-                width = x2 - x1
-                height = y2 - y1
-                padding_x = max(5, int(0.1 * width))
-                padding_y = max(5, int(0.1 * height))
+                # Padded bbox covers the entire image now
+                x1_padded, y1_padded = 0, 0
+                x2_padded, y2_padded = img_width, img_height
                 
-                # Calculate padded coordinates (ensure within image bounds)
-                img_height, img_width = original_image.shape[:2]
-                x1_padded = max(0, x1 - padding_x)
-                y1_padded = max(0, y1 - padding_y)
-                x2_padded = min(img_width, x2 + padding_x)
-                y2_padded = min(img_height, y2 + padding_y)
-                
-                # Crop the region
-                cropped_region = original_image[y1_padded:y2_padded, x1_padded:x2_padded]
-                
-                # Save cropped region if requested
+                # Save full image as "crop" if requested, to maintain pipeline output structure
                 if save_intermediate and output_dir:
                     base_name = os.path.splitext(os.path.basename(image_path))[0]
                     crop_path = os.path.join(output_dir, f'{base_name}_crop_{i+1}.jpg')
-                    cv2.imwrite(crop_path, cropped_region)
-                    print(f"Cropped region {i+1} saved to {crop_path}")
+                    cv2.imwrite(crop_path, original_image)
+                    print(f"Full image for region {i+1} saved to {crop_path}")
                 
-                # Create temporary file for cropped region
-                with tempfile.NamedTemporaryFile(suffix='.jpg', delete=False) as tmp_file:
-                    crop_temp_path = tmp_file.name
-                    cv2.imwrite(crop_temp_path, cropped_region)
+                # Store mask with region info
+                mask_info = {
+                    'mask': full_mask.copy(),
+                    'mask_shape': full_mask.shape,
+                    'region_id': i+1,
+                    'bbox': bbox,
+                    'padded_bbox': [x1_padded, y1_padded, x2_padded, y2_padded]
+                }
+                all_masks.append(mask_info)
                 
-                try:
-                    # Segmentation on cropped region
-                    print(f"Running segmentation on crop {i+1}...")
-                    mask = self.segmentation_model.segment(crop_temp_path)
-                    
-                    # Store mask with region info
-                    mask_info = {
-                        'mask': mask,
-                        'mask_shape': mask.shape,
-                        'region_id': i+1,
-                        'bbox': bbox,
-                        'padded_bbox': [x1_padded, y1_padded, x2_padded, y2_padded]
-                    }
-                    all_masks.append(mask_info)
-                    
-                    # Save individual mask if requested
-                    if save_intermediate and output_dir:
-                        mask_path = os.path.join(output_dir, f'segmented_mask_region_{i+1}.jpg')
-                        cv2.imwrite(mask_path, mask)
-                        mask_info['mask_path'] = mask_path
-                        print(f"Mask for region {i+1} saved to {mask_path}")
-                    
-                    # Classification on the segmented mask
-                    print(f"Running classification on crop {i+1}...")
-                    crack_type, confidence = self.classification_model.classify(mask)
-                    
-                    classification_info = {
-                        'crack_type': crack_type,
-                        'confidence': confidence,
-                        'region_id': i+1,
-                        'bbox': bbox
-                    }
-                    all_classifications.append(classification_info)
-                    
-                    print(f"Region {i+1}: {crack_type} (confidence: {confidence:.2%})")
-                    
-                    # Track best classification (highest confidence)
-                    if confidence > highest_confidence:
-                        highest_confidence = confidence
-                        best_classification = classification_info
+                # Save individual mask if requested
+                if save_intermediate and output_dir:
+                    mask_path = os.path.join(output_dir, f'segmented_mask_region_{i+1}.jpg')
+                    cv2.imwrite(mask_path, full_mask)
+                    mask_info['mask_path'] = mask_path
+                    print(f"Mask for region {i+1} saved to {mask_path}")
                 
-                finally:
-                    # Clean up temporary file
-                    if os.path.exists(crop_temp_path):
-                        os.unlink(crop_temp_path)
+                classification_info = {
+                    'crack_type': full_crack_type,
+                    'confidence': full_confidence,
+                    'region_id': i+1,
+                    'bbox': bbox
+                }
+                all_classifications.append(classification_info)
+                
+                print(f"Region {i+1}: {full_crack_type} (confidence: {full_confidence:.2%})")
+                
+                # Track best classification (highest confidence)
+                if full_confidence > highest_confidence:
+                    highest_confidence = full_confidence
+                    best_classification = classification_info
             
             # Store segmentation results
             results['segmentation'] = {

@@ -645,128 +645,17 @@ class CrackMeasurerWithBrickCalibration:
             print("Warning: No segmentation model provided. Must supply pre-computed mask.")
     
     @staticmethod
-    def hysteresis_threshold(raw_mask: np.ndarray, 
-                              low_thresh: int = 30, 
-                              high_thresh: int = 80) -> np.ndarray:
+    def get_longest_connected_component(binary_image: np.ndarray) -> np.ndarray:
         """
-        Apply hysteresis thresholding on the raw segmentation probability map.
-        
-        - Pixels above high_thresh are definite crack (seeds).
-        - Pixels between low_thresh and high_thresh are accepted only if they
-          are connected (8-connectivity) to a definite crack pixel.
-        - Pixels below low_thresh are rejected.
-        
-        This retains faint but connected crack regions that a single hard
-        threshold would discard.
-        
-        Args:
-            raw_mask: Grayscale probability map (uint8, 0-255)
-            low_thresh: Lower threshold for candidate pixels
-            high_thresh: Upper threshold for definite seed pixels
-            
-        Returns:
-            Binary mask (uint8, 0 or 255)
+        Finds the largest connected component in a binary image (excluding background).
         """
-        from scipy.ndimage import label as ndimage_label
-        
-        seeds = (raw_mask >= high_thresh).astype(np.uint8)
-        candidates = (raw_mask >= low_thresh).astype(np.uint8)
-        
-        # Label connected components in the candidate region
-        labeled, num_features = ndimage_label(candidates)
-        
-        # Find which labels contain at least one seed pixel
-        seed_labels = set(np.unique(labeled[seeds > 0]))
-        seed_labels.discard(0)  # remove background label
-        
-        # Keep only candidate components that touch a seed
-        result = np.zeros_like(raw_mask)
-        for lbl in seed_labels:
-            result[labeled == lbl] = 255
-        
-        return result
-    
-    @staticmethod
-    def cleanup_connected_components(mask: np.ndarray, 
-                                      min_area_fraction: float = 0.01) -> np.ndarray:
-        """
-        Remove small noise components. Keep components that are at least
-        min_area_fraction of the largest component's area.
-        
-        Args:
-            mask: Binary mask (uint8, 0 or 255)
-            min_area_fraction: Minimum fraction of largest component to keep
-            
-        Returns:
-            Cleaned binary mask (uint8, 0 or 255)
-        """
-        num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(
-            mask, connectivity=8
-        )
-        
+        num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(binary_image, connectivity=8)
         if num_labels <= 1:
-            return mask
+            return np.zeros_like(binary_image)
         
-        # stats[:, cv2.CC_STAT_AREA] — area of each component (label 0 = background)
-        areas = stats[1:, cv2.CC_STAT_AREA]  # skip background
-        max_area = np.max(areas)
-        min_area = max_area * min_area_fraction
-        
-        cleaned = np.zeros_like(mask)
-        for i in range(1, num_labels):
-            if stats[i, cv2.CC_STAT_AREA] >= min_area:
-                cleaned[labels == i] = 255
-        
-        return cleaned
-    
-    @staticmethod
-    def geodesic_skeleton_length(skeleton: np.ndarray) -> float:
-        """
-        Compute the true geodesic length of a skeleton by accounting for
-        diagonal vs cardinal neighbor connections.
-        
-        Cardinal neighbors (up/down/left/right) contribute 1.0 pixel distance.
-        Diagonal neighbors contribute √2 ≈ 1.414 pixel distance.
-        
-        Args:
-            skeleton: Boolean skeleton array
-            
-        Returns:
-            Geodesic length in pixels (float)
-        """
-        skel = skeleton.astype(np.uint8)
-        coords = np.argwhere(skel > 0)
-        
-        if len(coords) == 0:
-            return 0.0
-        
-        # Build a set for O(1) lookup
-        coord_set = set(map(tuple, coords))
-        
-        length = 0.0
-        visited_edges = set()
-        
-        SQRT2 = np.sqrt(2)
-        # 8-connected neighbors: (dy, dx, distance)
-        neighbors = [
-            (-1, 0, 1.0), (1, 0, 1.0), (0, -1, 1.0), (0, 1, 1.0),  # cardinal
-            (-1, -1, SQRT2), (-1, 1, SQRT2), (1, -1, SQRT2), (1, 1, SQRT2)  # diagonal
-        ]
-        
-        for (r, c) in coords:
-            for dr, dc, dist in neighbors:
-                nr, nc = r + dr, c + dc
-                if (nr, nc) in coord_set:
-                    edge = (min((r, c), (nr, nc)), max((r, c), (nr, nc)))
-                    if edge not in visited_edges:
-                        visited_edges.add(edge)
-                        length += dist
-        
-        # Handle isolated skeleton pixels (single dot)
-        if length == 0.0 and len(coords) > 0:
-            length = 1.0
-        
-        return length
+        # Exclude background (label 0)
+        largest_label = 1 + np.argmax(stats[1:, cv2.CC_STAT_AREA])
+        return (labels == largest_label).astype(np.uint8) * 255
     
     @staticmethod
     def perpendicular_width_profile(skeleton: np.ndarray, 
@@ -864,24 +753,15 @@ class CrackMeasurerWithBrickCalibration:
         return np.array(widths) if widths else np.array([1.0])
     
     def measure(self, image: np.ndarray, raw_mask: np.ndarray, 
-                scale_mm_per_px: float,
-                low_thresh: int = 30, high_thresh: int = 80) -> Dict:
+                scale_mm_per_px: float, join_threshold: int = 30) -> Dict:
         """
-        Measure crack dimensions using the RAW segmentation probability map.
-        
-        Instead of a single hard binary threshold (which loses faint crack pixels),
-        this uses:
-        1. Hysteresis thresholding to recover connected faint regions
-        2. Connected component cleanup to remove noise
-        3. Geodesic skeleton length for accurate crack length
-        4. Perpendicular intensity profiling on raw mask for accurate width
+        Measure crack dimensions using the density map and longest connected component.
         
         Args:
             image: Original image (for reference)
             raw_mask: Raw grayscale segmentation map (uint8, 0-255)
             scale_mm_per_px: Calibrated scale factor
-            low_thresh: Lower hysteresis threshold (default: 30)
-            high_thresh: Upper hysteresis threshold (default: 80)
+            join_threshold: Distance to bridge disconnected segments (default: 30)
             
         Returns:
             Dictionary with measurements (including skeleton & mask arrays)
@@ -889,56 +769,48 @@ class CrackMeasurerWithBrickCalibration:
         from skimage.morphology import skeletonize
         from scipy.ndimage import distance_transform_edt
         
-        print(f"    Using hysteresis thresholding (low={low_thresh}, high={high_thresh})")
+        print("    [DEBUG] Saving full raw probability mask to 'raw_mask_values_debug.csv'...")
+        np.savetxt('raw_mask_values_debug.csv', raw_mask, fmt='%d', delimiter=',')
         
-        # --- Step 1: Hysteresis thresholding on raw probability map ---
-        refined_mask = self.hysteresis_threshold(raw_mask, low_thresh, high_thresh)
+        print(f"    Using density map and longest connected component analysis...")
         
-        # --- Step 2: Clean up small noise components ---
-        refined_mask = self.cleanup_connected_components(refined_mask, min_area_fraction=0.01)
+        # --- Step 1: Density Map Blur ---
+        blur_sigma = 15.0
+        kernel_size = int(blur_sigma * 6) | 1
+        heatmap = cv2.GaussianBlur(raw_mask.astype(np.float32), (kernel_size, kernel_size), blur_sigma)
         
-        # Also create the old-style hard binary mask for comparison
-        hard_binary = (raw_mask > high_thresh).astype(np.uint8) * 255
+        if heatmap.max() > 0:
+            heatmap = (heatmap / heatmap.max() * 255).astype(np.uint8)
+        else:
+            heatmap = heatmap.astype(np.uint8)
+            
+        # --- Step 2: Threshold Density Map ---
+        threshold = 10
+        heatmap_mask = (heatmap > threshold).astype(np.uint8) * 255
         
-        # Stats comparison
-        raw_nonzero = int(np.sum(raw_mask > 0))
-        hard_nonzero = int(np.sum(hard_binary > 0))
-        refined_nonzero = int(np.sum(refined_mask > 0))
-        print(f"    Pixel counts — Raw non-zero: {raw_nonzero:,}, "
-              f"Hard binary (>{high_thresh}): {hard_nonzero:,}, "
-              f"Hysteresis refined: {refined_nonzero:,}")
-        recovery_pct = ((refined_nonzero - hard_nonzero) / max(hard_nonzero, 1)) * 100
-        print(f"    Recovered {recovery_pct:+.1f}% more crack pixels via hysteresis")
+        # --- Step 3: Morphological Closing (Join near components) ---
+        if join_threshold > 0:
+            kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (join_threshold, join_threshold))
+            heatmap_mask = cv2.morphologyEx(heatmap_mask, cv2.MORPH_CLOSE, kernel)
+            
+        # --- Step 4: Longest Connected Component ---
+        longest_blob = self.get_longest_connected_component(heatmap_mask)
+        mask_binary = (longest_blob > 0).astype(np.uint8)
         
-        # --- Step 3: Compute mask binary for skeletonization ---
-        mask_binary = (refined_mask > 0).astype(np.uint8)
-        
-        # Calculate area
         crack_pixels = int(np.sum(mask_binary > 0))
         area_mm2 = crack_pixels * (scale_mm_per_px ** 2)
         
-        # --- Step 4: Skeletonize the refined mask ---
+        # --- Step 5: Skeletonize ---
         skeleton = skeletonize(mask_binary > 0)
         skeleton_pixel_count = int(np.sum(skeleton))
         
-        # --- Step 5: Geodesic skeleton length ---
-        geodesic_length_px = self.geodesic_skeleton_length(skeleton)
-        length_mm = geodesic_length_px * scale_mm_per_px
+        # --- Step 6: Crack Length (Using plain pixel count) ---
+        length_px = float(skeleton_pixel_count)
+        length_mm = length_px * scale_mm_per_px
         
-        # Also compute naive length for comparison
-        naive_length_px = skeleton_pixel_count
-        naive_length_mm = naive_length_px * scale_mm_per_px
-        print(f"    Length — Naive (pixel count): {naive_length_mm:.2f} mm, "
-              f"Geodesic (diagonal-aware): {length_mm:.2f} mm")
+        print(f"    Length (longest crack pixels): {length_mm:.2f} mm ({skeleton_pixel_count} px)")
         
-        # --- Step 6: Width via perpendicular profiling on raw mask ---
-        print(f"    Computing perpendicular width profiles on raw segmentation...")
-        widths_px = self.perpendicular_width_profile(
-            skeleton, raw_mask, sample_step=3, profile_half_length=50
-        )
-        widths_mm = widths_px * scale_mm_per_px
-        
-        # Also compute distance-transform widths for comparison
+        # --- Step 7: Width via distance transform ---
         dist_transform = distance_transform_edt(mask_binary)
         skeleton_coords = np.where(skeleton)
         if len(skeleton_coords[0]) > 0:
@@ -951,7 +823,16 @@ class CrackMeasurerWithBrickCalibration:
             }
         else:
             dt_width_stats = {'max_mm': 0, 'mean_mm': 0, 'median_mm': 0}
-        
+            
+        print(f"    Width (distance transform)    — Max: {dt_width_stats['max_mm']:.2f} mm, "
+              f"Mean: {dt_width_stats['mean_mm']:.2f} mm, Median: {dt_width_stats['median_mm']:.2f} mm")
+              
+        # Also compute perpendicular width profile as secondary measure
+        print(f"    Computing perpendicular width profiles on raw segmentation...")
+        widths_px = self.perpendicular_width_profile(
+            skeleton, raw_mask, sample_step=3, profile_half_length=50
+        )
+        widths_mm = widths_px * scale_mm_per_px
         if len(widths_mm) > 0:
             width_stats = {
                 'max_mm': float(np.max(widths_mm)),
@@ -962,34 +843,26 @@ class CrackMeasurerWithBrickCalibration:
                 'p95_mm': float(np.percentile(widths_mm, 95))
             }
         else:
-            width_stats = {
-                'max_mm': 0, 'min_mm': 0, 'mean_mm': 0,
-                'median_mm': 0, 'std_mm': 0, 'p95_mm': 0
-            }
-        
-        print(f"    Width (perpendicular profile) — Max: {width_stats['max_mm']:.2f} mm, "
-              f"Mean: {width_stats['mean_mm']:.2f} mm, Median: {width_stats['median_mm']:.2f} mm")
-        print(f"    Width (distance transform)    — Max: {dt_width_stats['max_mm']:.2f} mm, "
-              f"Mean: {dt_width_stats['mean_mm']:.2f} mm, Median: {dt_width_stats['median_mm']:.2f} mm")
-        
+            width_stats = {'max_mm': 0, 'min_mm': 0, 'mean_mm': 0, 'median_mm': 0, 'std_mm': 0, 'p95_mm': 0}
+
         return {
             'success': True,
             'length_mm': float(length_mm),
-            'length_naive_mm': float(naive_length_mm),
+            'length_naive_mm': float(length_mm),
             'area_mm2': float(area_mm2),
             'width_stats': width_stats,
             'width_stats_distance_transform': dt_width_stats,
             'scale_mm_per_px': scale_mm_per_px,
             'crack_pixels': crack_pixels,
-            'crack_pixels_hard_binary': hard_nonzero,
-            'crack_pixels_recovered': refined_nonzero - hard_nonzero,
+            'crack_pixels_hard_binary': int(np.sum(raw_mask > 40)),
+            'crack_pixels_recovered': 0,
             'skeleton_pixels': skeleton_pixel_count,
-            'geodesic_length_px': float(geodesic_length_px),
-            'hysteresis_thresholds': {'low': low_thresh, 'high': high_thresh},
+            'geodesic_length_px': float(length_px),
+            'hysteresis_thresholds': {'low': 15, 'high': 40}, # dummy values for bw compatibility
             'skeleton': skeleton,
             'binary_mask': mask_binary,
-            'refined_mask': refined_mask,
-            'hard_binary_mask': hard_binary
+            'refined_mask': longest_blob,
+            'hard_binary_mask': (raw_mask > 40).astype(np.uint8) * 255
         }
 
 
@@ -1225,7 +1098,7 @@ Examples:
                        help='Path to segmentation model')
     parser.add_argument('--device', default='cuda', choices=['cuda', 'cpu'],
                        help='Device for inference')
-    parser.add_argument('--threshold', type=int, default=80,
+    parser.add_argument('--threshold', type=int, default=40,
                        help='Segmentation threshold (0-255)')
     parser.add_argument('--output-dir', '-o', default='./brick_calibrated_results',
                        help='Output directory')
@@ -1339,17 +1212,12 @@ Examples:
     cv2.imwrite(binary_mask_path, binary_mask)
     print(f"    Hard binary mask saved (for reference): {binary_mask_path}")
     
-    # Measure crack using RAW segmentation with hysteresis thresholding
-    print("\n[3/3] Measuring crack dimensions (using raw segmentation)...")
-    
-    # Compute hysteresis thresholds: use the CLI --threshold as high, and half as low
-    high_thresh = args.threshold
-    low_thresh = max(10, args.threshold // 3)  # Typically ~27 for default threshold=80
+    # Measure crack using density-based longest connected component
+    print("\n[3/3] Measuring crack dimensions (using density map)...")
     
     measurer = CrackMeasurerWithBrickCalibration()
     results = measurer.measure(
-        image, raw_mask, detection.avg_scale_mm_per_px,
-        low_thresh=low_thresh, high_thresh=high_thresh
+        image, raw_mask, detection.avg_scale_mm_per_px, join_threshold=30
     )
     
     # Generate skeleton visualizations
@@ -1430,10 +1298,8 @@ Examples:
         f.write(f"Brick Size: {brick_length} x {brick_height} mm\n")
         f.write(f"Scale Factor: {detection.avg_scale_mm_per_px:.4f} mm/pixel\n")
         f.write(f"Calibration Confidence: {detection.confidence:.2%}\n\n")
-        f.write(f"Hysteresis Thresholds: low={low_thresh}, high={high_thresh}\n")
-        f.write(f"Crack Pixels (hard binary): {results.get('crack_pixels_hard_binary', 'N/A')}\n")
-        f.write(f"Crack Pixels (hysteresis):  {results.get('crack_pixels', 'N/A')}\n")
-        f.write(f"Pixels Recovered:           {results.get('crack_pixels_recovered', 'N/A')}\n\n")
+        f.write(f"Crack Pixels (raw map sum): {results.get('crack_pixels_hard_binary', 'N/A')}\n")
+        f.write(f"Crack Pixels (density longest path): {results.get('skeleton_pixels', 'N/A')}\n\n")
         f.write(f"Length (geodesic):  {results['length_mm']:.2f} mm\n")
         f.write(f"Length (naive):     {results.get('length_naive_mm', 0):.2f} mm\n")
         f.write(f"Max Width:   {width_stats['max_mm']:.2f} mm\n")

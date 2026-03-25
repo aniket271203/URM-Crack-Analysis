@@ -1188,6 +1188,17 @@ def main():
             use_fema_rag = False
         
         st.markdown("---")
+        st.subheader("📏 Crack Measurement Settings")
+        
+        # We store it into session state but also capture it locally right away
+        join_threshold_input = st.slider(
+            "Density Join Distance (px)",
+            min_value=0, max_value=100, value=30, step=5,
+            help="Maximum distance to bridge disconnected crack segments"
+        )
+        st.session_state.join_threshold = join_threshold_input
+        
+        st.markdown("---")
         st.subheader("📐 Brick Calibration")
         st.caption(f"📐 All images are standardized to **{STANDARD_IMAGE_WIDTH}px** width for consistent measurements.")
         
@@ -1858,7 +1869,8 @@ def main():
                     measurement_results = measurer.measure(
                         image=original_img,
                         raw_mask=mask_for_measurement,
-                        scale_mm_per_px=st.session_state.scale_mm_per_px
+                        scale_mm_per_px=st.session_state.scale_mm_per_px,
+                        join_threshold=st.session_state.get('join_threshold', 30)
                     )
                     st.session_state.measurement_results = measurement_results
                     
