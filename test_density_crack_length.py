@@ -130,7 +130,7 @@ if __name__ == "__main__":
     parser.add_argument("--mask", help="Path to the pre-computed mask (optional)", default=None)
     parser.add_argument("--seg-model", help="Path to segmentation model", 
                         default="Masking_and_Classification_model/pretrained_net_G.pth")
-    parser.add_argument("--join-dist", type=int, default=30,
+    parser.add_argument("--join-dist", type=int, default=10,
                         help="Maximum pixel distance to bridge/join disconnected crack segments. (0 to disable)")
     parser.add_argument("--output", help="Output path for the visualization image", default="density_length_result.jpg")
     

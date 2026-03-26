@@ -60,6 +60,8 @@ data/
 !**/data/documents.json
 !**/data/metadata.json
 
+brick_calibrated_results/
+brick_test_images/
 
 
 
