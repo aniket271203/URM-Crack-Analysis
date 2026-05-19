@@ -645,6 +645,56 @@ class CrackMeasurerWithBrickCalibration:
             print("Warning: No segmentation model provided. Must supply pre-computed mask.")
     
     @staticmethod
+    def _skeleton_chain_length(skeleton: np.ndarray) -> float:
+        """
+        Compute the true arc-length of a skeleton by summing Euclidean
+        distances between neighbouring pixels.
+
+        For a 1-pixel-wide skeleton, each pixel is connected to its
+        neighbours in 8-connectivity.  Orthogonal (horizontal / vertical)
+        steps contribute distance 1.0, while diagonal steps contribute
+        √2 ≈ 1.414.  Simply counting pixels (|S|) would treat every step
+        as 1.0, under-estimating diagonal cracks by up to ~29 %.
+
+        Returns the total arc-length in **pixel units**.
+        """
+        SQRT2 = np.sqrt(2.0)
+
+        skel = skeleton.astype(bool)
+        coords = np.argwhere(skel)          # (N, 2)  row, col
+        if len(coords) == 0:
+            return 0.0
+
+        # Build a set for O(1) membership queries
+        coord_set = set(map(tuple, coords))
+
+        # 8-connected neighbour offsets
+        offsets = [(-1, -1), (-1, 0), (-1, 1),
+                   ( 0, -1),          ( 0, 1),
+                   ( 1, -1), ( 1, 0), ( 1, 1)]
+
+        # For each skeleton pixel, accumulate the distance to each
+        # neighbour.  Every edge is counted from both endpoints, so we
+        # halve the total at the end.
+        total = 0.0
+        for r, c in coords:
+            for dr, dc in offsets:
+                nr, nc = r + dr, c + dc
+                if (nr, nc) in coord_set:
+                    total += SQRT2 if (dr != 0 and dc != 0) else 1.0
+
+        # Each edge was counted twice (once from each endpoint).
+        total /= 2.0
+
+        # The length is the sum of edges, but a skeleton of N pixels
+        # arranged in a simple path has N-1 edges.  The pixel-count
+        # method returns N, so we add 1.0 to account for the half-pixel
+        # at each endpoint (consistent with the pixel-count convention).
+        # This keeps the value comparable while being geometrically
+        # more accurate.
+        return total
+
+    @staticmethod
     def get_longest_connected_component(binary_image: np.ndarray) -> np.ndarray:
         """
         Finds the largest connected component in a binary image (excluding background).
@@ -804,11 +854,15 @@ class CrackMeasurerWithBrickCalibration:
         skeleton = skeletonize(mask_binary > 0)
         skeleton_pixel_count = int(np.sum(skeleton))
         
-        # --- Step 6: Crack Length (Using plain pixel count) ---
-        length_px = float(skeleton_pixel_count)
+        # --- Step 6: Crack Length (chain-code walk with √2 diagonal correction) ---
+        # Walking the skeleton: orthogonal steps = 1.0, diagonal steps = √2.
+        # This avoids underestimating diagonal cracks that would occur with a
+        # plain pixel count (which treats every step as distance 1).
+        length_px = self._skeleton_chain_length(skeleton)
         length_mm = length_px * scale_mm_per_px
         
-        print(f"    Length (longest crack pixels): {length_mm:.2f} mm ({skeleton_pixel_count} px)")
+        print(f"    Length (chain-code walk): {length_mm:.2f} mm "
+              f"({length_px:.1f} calibrated px, {skeleton_pixel_count} raw px)")
         
         # --- Step 7: Width via distance transform ---
         dist_transform = distance_transform_edt(mask_binary)

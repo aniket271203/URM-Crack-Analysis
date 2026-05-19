@@ -1087,13 +1087,20 @@ def load_fema_rag_agent(chroma_db_path: str = None):
     
     try:
         # Load environment variables from .env file
-        env_path = os.path.join(
+        from dotenv import load_dotenv
+        
+        # Try root project .env first
+        root_env_path = os.path.join(os.path.dirname(__file__), '.env')
+        if os.path.exists(root_env_path):
+            load_dotenv(root_env_path, override=True)
+            
+        # Then try RAG specific .env
+        rag_env_path = os.path.join(
             os.path.dirname(__file__), 
             'Independent study', 'RAG_updated', '.env'
         )
-        if os.path.exists(env_path):
-            from dotenv import load_dotenv
-            load_dotenv(env_path)
+        if os.path.exists(rag_env_path):
+            load_dotenv(rag_env_path, override=True)
         
         # Default path
         if chroma_db_path is None:
