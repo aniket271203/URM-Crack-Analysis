@@ -1,0 +1,105 @@
+{
+  "document_id": "URM2K_Classification_Guide",
+  "title": "URM Weaker Pier Diagonal Tension Classification Guide",
+  "references": [
+    "id_of_section_7_3_2"
+  ],
+  "system": "URM",
+  "component_type": "Weaker Pier",
+  "behavior_mode": "Diagonal Tension",
+  "identification_guidelines": {
+    "by_observation": "Typical diagonal tension cracking—resulting from strong mortar, weak units, and high compressive stress—can be identified by diagonal cracks (“X” cracks) that propagate through the units. In many cases, the cracking is sudden, brittle, and vertical load capacity drops quickly. The cracks may then extend to the toe and the triangles above and below the crack separate. In a few cases, the load drop may be more gradual with cracks increasing in size and extent with each cycle. A second form of diagonal tension cracking also has been experimentally observed with weak mortar, strong units and low compressive stress where the cracks propagate in a stair-stepped manner in head and bed joints. The first (typical) case is shown below.",
+    "by_analysis": "Since the stair-stepping form of cracking would appear similar to the early levels of stair-stepped bed joint sliding, confirm by analysis that diagonal tension governs over bed joint sliding. Since deterioration at the corners in the Heavy damage level may resemble toe crushing, also confirm that diagonal tension governs over toe crushing."
+  },
+  "damage_levels": [
+    {
+      "level": "Insignificant",
+      "performance_factors": {
+        "lambda_K": 1.0,
+        "lambda_Q": 1.0,
+        "lambda_D": 1.0,
+        "mu_delta": "<= 1"
+      },
+      "criteria": [
+        "Hairline diagonal cracks in masonry units in fewer than 5% of courses."
+      ],
+      "typical_appearance_desc": "Diagram shows a masonry pier with a faint, singular diagonal crack (1) starting near the center and propagating slightly towards the corners, but staying within the central masonry units.",
+      "restoration_measures": [
+        "Not necessary for restoration of structural performance.",
+        "Measures may be necessary for restoration of nonstructural characteristics."
+      ]
+    },
+    {
+      "level": "Slight",
+      "criteria": [
+        "Not used."
+      ],
+      "restoration_measures": []
+    },
+    {
+      "level": "Moderate",
+      "performance_factors": {
+        "lambda_K": 0.8,
+        "lambda_Q": 0.9,
+        "lambda_D": 1.0,
+        "mu_delta": "1-1.5"
+      },
+      "criteria": [
+        "Diagonal cracks in pier, many of which go through masonry units, with crack widths below 1/4\".",
+        "Diagonal cracks reach or nearly reach corners.",
+        "No crushing/spalling of pier corners."
+      ],
+      "typical_appearance_desc": "Diagram illustrates a clear 'X' shaped diagonal cracking pattern (1) where the cracks extend from the top corners toward the bottom corners of the pier.",
+      "restoration_measures": {
+        "actions": [
+          "Repoint spalled mortar.",
+          "Inject cracks."
+        ],
+        "restoration_factors": {
+          "lambda_K_star": 0.8,
+          "lambda_Q_star": 1.0,
+          "lambda_D_star": 1.0
+        }
+      }
+    },
+    {
+      "level": "Heavy",
+      "performance_factors": {
+        "lambda_K": 0.4,
+        "lambda_Q": 0.8,
+        "lambda_D": 0.7,
+        "mu_delta": "> 1.5"
+      },
+      "criteria": [
+        "Diagonal cracks in pier, many of which go through masonry units, with crack widths over 1/4\".",
+        "Some minor crushing/spalling of pier corners.",
+        "Minor movement along or across crack plane."
+      ],
+      "typical_appearance_desc": "Diagram shows pronounced 'X' cracking (1) with wide gaps, visible crushing/spalling at the base corners (2), and indicators of movement/sliding along the crack planes (3).",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement is required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Replace/drypack damaged units.",
+          "Repoint spalled mortar.",
+          "Inject cracks."
+        ],
+        "partial_factors": {
+          "lambda_K_star": 0.8,
+          "lambda_Q_star": 0.8,
+          "lambda_D_star": 1.0
+        }
+      }
+    },
+    {
+      "level": "Extreme",
+      "criteria": [
+        "Vertical load-carrying ability is threatened.",
+        "Significant movement or rotation along crack plane.",
+        "Residual set is so significant that portions of masonry at the edges of the pier have begun or are about to fall."
+      ],
+      "restoration_measures": [
+        "Replacement or enhancement required."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "title": "7.2.4 Wall-Pier Rocking",
+  "content": "7.2.4 Wall-Pier Rocking\nn the wall-pier rocking behavior mode, after flexural\nracking develops at the heel, the wall or pier acts as a\nigid body rotating about the toe. The rocking mode\nypically occurs when material shear capacity is high,\niers are slender, and compressive stress is low. Post-\nracking deformations can be large and relatively stable\nor many cycles. The ultimate limit state and the\neflection at which it occurs are not well defined by the\nesearch, but three possible damage types can occur: in-\n\nplane overturning, gradual degradation and softening of\nthe pier, and excessive out-of-plane residual\ndisplacements (\u201cwalking\u201d) of the pier, leading to\ninstability.\nThe strength and displacement capacities of an element\nin rocking are based on FEMA 273, where the \u201cd\u201d drift\nvalue of 0.4h /L was established. Currently available\nexperimental results are insufficient to determine the\nrelative influence of number of cycles, drift, and\nductility on rocking degradation. In the field, it is often\ndifficult to find evidence of rocking, because the cracks\nclose at the completion of shaking. However, horizontal\ncracks at the top and bottom of piers have been\nobserved, particularly as pointing mortar spalls.",
+  "metadata": {
+    "section_id": "7.2.4",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_4"
+}

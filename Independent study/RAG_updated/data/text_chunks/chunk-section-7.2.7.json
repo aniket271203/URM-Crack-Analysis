@@ -1,0 +1,9 @@
+{
+  "title": "7.2.7 Spandrel-Joint Sliding",
+  "content": "7.2.7 Spandrel-Joint Sliding\nCommonly observed in the field in running bond\nmasonry, this form of bed-joint sliding in the ends of the\nspandrel resembles interlocked fingers pulling apart,\nand it occurs when the in-plane moment capacity of the\nspandrel is reached, but before the shear capacity of the\nspandrel is reached. This mode can be relatively ductile\nand can allow for significant drift, provided a reliable\nlintel is present. As the spandrel displaces, the nonlinear\nmechanism of response may move to other portions of\nthe wall such as the piers.\nThe strength and displacement capacity are based on a\nmodified version of the bed-joint sliding equation in\nFEMA 273. See Section 7.3 for details.",
+  "metadata": {
+    "section_id": "7.2.7",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_7"
+}

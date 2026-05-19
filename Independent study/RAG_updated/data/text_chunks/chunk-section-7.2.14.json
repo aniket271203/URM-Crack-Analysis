@@ -1,0 +1,9 @@
+{
+  "title": "7.2.14 Preemptive Diagonal Tension",
+  "content": "7.2.14 Preemptive Diagonal Tension\nn this behavior mode, a diagonal tension crack forms\nwithout significant ductile response. Typical diagonal\nension cracking\u2014resulting from strong mortar, weak\nnits, and high compressive stress\u2014can be identified\ny diagonal cracks (\u201cX\u201d cracks) that propagate through\nhe units. In many cases, the cracking is sudden and\nrittle, and vertical load capacity drops quickly. The\nracks may then extend to the toe, and the triangles\nbove and below the crack separate. In a few cases, the\noad drop may be more gradual with cracks increasing\nn size and extent with each cycle.\nA second form of diagonal tension cracking exists with\nweak mortar, strong units, and low compressive stress,\nwhen the cracks propagate in a stair-stepped manner in\nead and bed joints. In Specimen MA of Calvi and\nMagenes (1994), this behavior was observed (Magenes,\n997).\nCapacity is based on the FEMA 273 equation for\niagonal tension. This equation requires calculation of\nmasonry tensile strength, but there is no direct test for\nhis value. As a substitute, the bed-joint mortar strength\ns used. This strength value only applies to the mortar,\not the masonry units. Thus, there is a great deal of\nncertainty in diagonal tension-strength calculations.",
+  "metadata": {
+    "section_id": "7.2.14",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_14"
+}

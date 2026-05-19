@@ -1,0 +1,9 @@
+{
+  "title": "7.2.13 Corner Damage",
+  "content": "7.2.13 Corner Damage\nThis form of damage is commonly observed at the\nintersection of the roof and walls subjected to in-plane\nand out-of-plane demands in moderate earthquakes. See\nFigures 7-11 and 7-12 for a diagram and photo of this\ndamage type. Although not studied in experiments, it is\nlikely to result from a combination of any of three\npossible causes:\n\u2022 When a roof diaphragm without shear anchorage\nmoves parallel to the walls subjected to in-plane\ndemands, the walls subjected to out-of-plane\ndemands may be punched outward. The tensile\ncapacity of the wall (from the strength of the bed\njoints) is exceeded locally, and the wall corner falls.\n\u2022 Damage may be exacerbated by cracking resulting\nfrom the horizontal spanning of the wall. In a\nhorizontal span, there is bending restraint at the ends\nof the wall due to the returns around the corner. If\nthe resulting moment at the wall ends exceeds the\ncapacity, a vertical crack occurs at the corner.\nFor walls with openings near the corner, in-plane\ndemands force moments into the joint between the\nouter pier at the top story and the adjacent spandrel.\nThe moment places tensile demands on the head and\nbed joints at the pier/spandrel intersection, causing a\ndiagonal crack to form.\nCapacities are difficult to identify for the first two\nauses; the third is covered in a methodology developed\nn Section 7.3.",
+  "metadata": {
+    "section_id": "7.2.13",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_13"
+}

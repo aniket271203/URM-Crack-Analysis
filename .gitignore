@@ -60,6 +60,15 @@ data/
 !**/data/documents.json
 !**/data/metadata.json
 
+# RAG knowledge base – must be tracked in git
+# Un-ignore the specific RAG data directory (anchored from repo root with /)
+# Parent directories must be un-ignored before files inside them can be un-ignored.
+!/Independent study/RAG_updated/data/
+!/Independent study/RAG_updated/data/text_chunks/
+!/Independent study/RAG_updated/data/text_chunks/*.json
+!/Independent study/RAG_updated/data/chroma_db/
+!/Independent study/RAG_updated/data/chroma_db/chroma.sqlite3
+
 brick_calibrated_results/
 brick_test_images/
 

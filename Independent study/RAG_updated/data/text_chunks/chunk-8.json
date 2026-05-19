@@ -1,0 +1,92 @@
+{
+  "document_id": "URM1M_Classification_Guide",
+  "title": "URM Solid Wall Out-of-Plane Flexural Response Classification Guide",
+  "references": [
+    "id_of_section_7_3_5"
+  ],
+  "system": "URM",
+  "component_type": "Solid Wall",
+  "behavior_mode": "Out-of-Plane Flexural Response",
+  "identification_guidelines": {
+    "by_observation": "Out-of-plane failures are common in URM buildings. Usually they occur due to the lack of adequate wall ties, as discussed in Table 7-1. When ties are adequate, the wall may fail due to out-of-plane bending between floor levels. One mode of failure observed in experiments is rigid-body rocking motion occurring on three cracks: one at the top of the wall, one at the bottom, and one at midheight. As rocking increases, the mortar and masonry units at the crack locations can be degraded, and residual offsets can occur at the crack planes. The ultimate limit state is that the walls rock too far and overturn. Important variables are the vertical stress on the wall and the height-to-thickness ratio of the wall. Thus, walls at the top of buildings and slender walls are more likely to suffer damage.",
+    "by_analysis": "None required.",
+    "caution": "If horizontal cracks are located directly below wall-diaphragm ties, damage may be due to bed joint sliding associated with tie damage. For piers, if horizontal cracks are observed at the top and bottom of the pier but not at midheight, see URM2A. Confirm whether the face brick is unbonded to the backing brick. If so, the thickness in the h/t requirement is reduced to the thickness of the backing wythes."
+  },
+  "damage_levels": [
+    {
+      "level": "Insignificant",
+      "performance_factors": {
+        "lambda_h_t": 1.0,
+        "note": "For in-plane modes given previously, assume out-of-plane damage leads to Moderate damage for URM2B and Insignificant damage for all other modes."
+      },
+      "criteria": [
+        "Hairline cracks at floor/roof lines and midheight of stories.",
+        "No out-of-plane offset or spalling of mortar along cracks."
+      ],
+      "typical_appearance_desc": "Diagram shows a side profile and front view of a wall section with horizontal hairline cracks (1) at the base, midheight, and top. The side view (2) indicates no displacement or offset.",
+      "restoration_measures": [
+        "Not necessary for restoration of structural performance.",
+        "Measures may be necessary for restoration of nonstructural characteristics."
+      ]
+    },
+    {
+      "level": "Slight",
+      "criteria": [
+        "Not used."
+      ],
+      "restoration_measures": []
+    },
+    {
+      "level": "Moderate",
+      "performance_factors": {
+        "lambda_h_t": 0.9,
+        "note": "For in-plane loads: use Moderate for URM2B and Insignificant for all other modes."
+      },
+      "criteria": [
+        "Cracks at floor/roof lines and midheight of stories may have mortar spalls up to full depth of joint and possibly:",
+        "Out-of-plane offsets along cracks of up to 1/8\"."
+      ],
+      "typical_appearance_desc": "Typical appearance is noted as similar to Insignificant damage.",
+      "restoration_measures": [
+        "Repoint spalled mortar.",
+        "For out-of-plane loads: lambda_h_t = 1.0."
+      ]
+    },
+    {
+      "level": "Heavy",
+      "performance_factors": {
+        "lambda_h_t": 0.6,
+        "note": "For in-plane modes given previously, assume out-of-plane damage leads to Heavy for all other modes."
+      },
+      "criteria": [
+        "Cracks at floor/roof lines and midheight of stories may have mortar spalls up to full depth of joint.",
+        "Spalling and rounding at edges of units along crack plane.",
+        "Out-of-plane offsets along cracks of up to 1/2\"."
+      ],
+      "typical_appearance_desc": "Diagram shows a side profile indicating clear horizontal cracking and offsets (1) at floor/roof lines and midheight (2). The wall section shows a visible tilt or pivot point (3) at the center.",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement is required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Replace/drypack damaged units.",
+          "Repoint spalled mortar."
+        ],
+        "partial_factors": {
+          "lambda_h_t_star": 0.8
+        }
+      }
+    },
+    {
+      "level": "Extreme",
+      "criteria": [
+        "Vertical-load-carrying ability is threatened."
+      ],
+      "typical_indications": [
+        "Significant out-of-plane or in-plane movement at top and bottom of piers ('walking').",
+        "Significant crushing/spalling of bricks at crack locations."
+      ],
+      "restoration_measures": [
+        "Replacement or enhancement required."
+      ]
+    }
+  ]
+}

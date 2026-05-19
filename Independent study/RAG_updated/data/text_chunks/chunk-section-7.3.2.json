@@ -1,0 +1,73 @@
+{
+  "document_id": "id_of_section_7_3_2",
+  "title": "7.3.2 Evaluation Procedures for In-Plane Behavior of Piers",
+  "system": "URM",
+  "description": "A three-step process to determine pier capacity, predict behavior modes, and reconcile findings with observed field damage.",
+  "step_1_capacity_calculations": {
+    "rocking_Vr": {
+      "formula": "V_r = 0.9 * alpha * P_CE * (L / h_eff)",
+      "variables": {
+        "alpha": "0.5 for fixed-free cantilever; 1.0 for fixed-fixed pier",
+        "P_CE": "Expected vertical axial compressive force (FEMA 273)",
+        "L": "Length of wall",
+        "h_eff": "Height to resultant of lateral force"
+      },
+      "reference_code": "Equation 7-3"
+    },
+    "bed_joint_sliding_Vbjs": {
+      "Vbjs1_bond_friction": "V_bjs1 = v_me * A_n",
+      "Vbjs2_friction_only": "V_bjs2 = 0.5 * P_CE",
+      "variables": {
+        "v_me": "Bond plus friction strength of mortar",
+        "A_n": "Area of net mortared/grouted section"
+      },
+      "reference_code": "Equations 7-4, 7-5"
+    },
+    "diagonal_tension_Vdt": {
+      "formula": "V_dt = f'_dt * A_n * beta * (1 + f_ae / f'_dt)^0.5",
+      "variables": {
+        "f'_dt": "Diagonal tension strength (assumed as v_me)",
+        "beta": "0.67 for L/h_eff < 0.67; 1.0 for L/h_eff > 1.0; interpolated between",
+        "f_ae": "Expected vertical axial compressive stress"
+      },
+      "reference_code": "Equation 7-6"
+    },
+    "toe_crushing_Vtc": {
+      "formula": "V_tc = alpha * P_CE * (L / h_eff) * (1 - f_ae / 0.7 * f'_me)",
+      "variables": {
+        "f'_me": "Expected masonry compressive strength"
+      },
+      "reference_code": "Equation 7-7"
+    }
+  },
+  "step_2_predict_behavior_mode": {
+    "piers_aspect_ratio_gt_1_25": [
+      {
+        "condition": "V_bjs1 is lowest and < 0.75 of V_tc or V_r",
+        "predicted_mode": "URM2B (Bed joint sliding)"
+      },
+      {
+        "condition": "V_tc or V_r are lowest and < 0.75 of V_bjs1",
+        "predicted_mode": "URM1H (Flexural cracking/toe crushing)"
+      }
+    ],
+    "piers_aspect_ratio_le_1_25": [
+      {
+        "condition": "V_r or V_tc are lowest and f_ae < 100 psi",
+        "predicted_mode": "URM2A (Wall-pier rocking)"
+      },
+      {
+        "condition": "V_r or V_tc are lowest and f_ae >= 150 psi",
+        "predicted_mode": "URM2G (Flexural cracking/diagonal tension)"
+      }
+    ]
+  },
+  "step_3_field_reconciliation": {
+    "guideline": "Compare predicted mode with observed field damage. If consistent, classification and capacity are correct.",
+    "failure_logic": "If field damage is inconsistent, return to Step 1 and vary material property assumptions (e.g., using 1/30 of brick compressive strength for diagonal tension strength)."
+  },
+  "technical_notes": {
+    "ASTM_reference": "Standardized tests in ASTM C-67.",
+    "face_brick_caution": "If face brick is unbonded, reduce h/t thickness to backing wythes only."
+  }
+}

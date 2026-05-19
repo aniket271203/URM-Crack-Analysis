@@ -1,0 +1,9 @@
+{
+  "title": "7.2.6 Bed-Joint Sliding at Wall Base",
+  "content": "7.2.6 Bed-Joint Sliding at Wall Base\nObserved in experiments, this mode is a variation of\nbed-joint sliding in which the sliding occurs on the\nsurface where the URM wall meets the foundation.\nStrength and displacement capacities are assumed to be\nsimilar to bed-joint sliding as described in\nSection 7.2.5.",
+  "metadata": {
+    "section_id": "7.2.6",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_6"
+}

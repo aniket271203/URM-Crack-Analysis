@@ -1,0 +1,53 @@
+{
+  "document_id": "id_of_section_7_3_4",
+  "title": "7.3.4 Evaluation Procedures for In-Plane Behavior of Perforated Walls with Spandrel Damage",
+  "system": "URM",
+  "description": "Procedures for estimating the moment and shear capacity of uncracked spandrels and damaged walls experiencing joint sliding or unit cracking.",
+  "uncracked_spandrel_capacities": {
+    "moment_capacity_Mspun": {
+      "methodology": "Derived from interlock between bed joints and collar joints at the pier-spandrel interface. Assumes elastic stress distribution with neutral axis at centerline of spandrel height.",
+      "formula": "M_spun = d_effun * T",
+      "variables": {
+        "d_effun": "Distance between Resultant Tensile (T) and Compressive (C) forces, calculated as (2/3) * d_sp",
+        "T": "Resultant tensile force, calculated as T = [(v_bjun * b_w * b_effun) + (v_cun * b_h * b_effun * (NB - 1)) * eta]"
+      },
+      "reference_code": "Equations 7-13, 7-14"
+    },
+    "shear_capacity_Vspun": {
+      "methodology": "Derived from diagonal tensile capacity for the pier.",
+      "formula": "V_spun = f'_dt * d_sp * b_sp * beta * (1 + f_ae / f'_dt)^0.5",
+      "special_case_fae_zero": "V_spun = f'_dt * d_sp * b_sp * beta",
+      "variables": {
+        "beta": "0.67 for L_sp/d_sp < 0.67; 1.0 for L_sp/d_sp > 1.0; interpolated between",
+        "f_ae": "Expected horizontal axial stress in the pier (assumed 0 unless known)"
+      },
+      "reference_code": "Equations 7-15, 7-16"
+    }
+  },
+  "cracked_spandrel_joint_sliding": {
+    "moment_capacity_Mspcr": {
+      "methodology": "Similar to uncracked spandrel but assumes bond strength of mortar (epsilon) is lost.",
+      "formula": "M_spcr = d_effcr * T",
+      "variables": {
+        "v_bjcr": "Cracked bed joint shear stress = 0.25 * P_CE / A_n",
+        "v_ccr": "Cracked collar joint shear stress = 0",
+        "b_effcr": "Effective length of interface = b_l/2 - Delta_s",
+        "Delta_s": "Average slip (estimated as average opening width of open head joint)"
+      },
+      "reference_code": "Equations 7-17, 7-18, 7-22"
+    },
+    "shear_capacity_logic": "Assumed same as uncracked spandrel provided keying action remains; resisted by bearing on bed joints of interlocked units."
+  },
+  "cracked_spandrel_unit_cracking": {
+    "methodology": "Derived similar to uncracked spandrel procedures, but effective depth of the spandrel is reduced to the amount of uncracked masonry remaining."
+  },
+  "implications_of_spandrel_cracking": {
+    "corner_damage": "Caused by weight of masonry near the joint. Exceeding weak capacities leads to diagonal cracks propagating from opening corners across the last pier, increasing its effective height.",
+    "multistory_pier_rocking": {
+      "logic": "If spandrels are fully cracked, they provide no bending rigidity. Pier rocking must be assessed using a multistory pier model.",
+      "shear_imparted": "V_sp = 2 * M_sp / L_sp",
+      "governing_mode": "To determine the governing mode, compare values for V_rR for multi-story and single-story rocking. The lowest capacity governs."
+    },
+    "reference_diagram": "Figure 7-14 illustrates implications of spandrel cracking including Mechanism 1 and Mechanism 2."
+  }
+}

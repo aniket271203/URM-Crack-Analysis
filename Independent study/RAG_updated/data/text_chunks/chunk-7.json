@@ -1,0 +1,87 @@
+{
+  "document_id": "URM3I_Classification_Guide",
+  "title": "URM Weak Spandrel Spandrel Unit Cracking Classification Guide",
+  "references": [
+    "id_of_section_7_3_4"
+  ],
+  "system": "URM",
+  "component_type": "Weak Spandrel",
+  "behavior_mode": "Spandrel Unit Cracking",
+  "identification_guidelines": {
+    "by_observation": "In this type of behavior, the moment at the end of the spandrel is not relieved by sliding, but instead causes brittle vertical cracking though the masonry units. Cracking propagates rapidly as displacement increases and cycles continue. Depending on the lintel construction, this can lead to a local falling hazard. It also increases the effective height of the piers. As the spandrel displaces, the nonlinear mechanism of response may move to other portions of the wall such as the piers.",
+    "by_analysis": "No analysis is typically necessary to distinguish this mode."
+  },
+  "damage_levels": [
+    {
+      "level": "Insignificant",
+      "performance_factors": {
+        "lambda_K": 0.9,
+        "lambda_Q": 0.9,
+        "lambda_D": 1.0,
+        "mu_delta": "<= 1.5"
+      },
+      "criteria": [
+        "Predominantly vertical cracks/spalled mortar through no more than one unit at the ends of the spandrel."
+      ],
+      "typical_appearance_desc": "Diagram shows a spandrel between two piers with small vertical cracks (1) located at the intersection where the spandrel beam meets the piers.",
+      "restoration_measures": [
+        "Not necessary for restoration of structural performance. (Measures may be necessary for restoration of nonstructural characteristics.)"
+      ]
+    },
+    {
+      "level": "Slight",
+      "criteria": [
+        "Not used."
+      ],
+      "restoration_measures": []
+    },
+    {
+      "level": "Moderate",
+      "criteria": [
+        "Not used."
+      ],
+      "restoration_measures": []
+    },
+    {
+      "level": "Heavy",
+      "performance_factors": {
+        "lambda_K": 0.2,
+        "lambda_Q": 0.4,
+        "lambda_D": 0.6,
+        "note": "As an alternative, calculate per Section 7.3.4"
+      },
+      "criteria": [
+        "Predominantly vertical cracks/spalled mortar across the full depth of each end of the spandrel. In over 1/3 of the courses, cracks go through the masonry units.",
+        "Possibly some deterioration of units at bottom ends of spandrel, but no vertical slip of the spandrel."
+      ],
+      "typical_appearance_desc": "Diagram shows significant vertical cracks (1) cutting through the full depth of the spandrel at both ends, with unit deterioration visible at the bottom corners (2).",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement is required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Stitch across crack with pins and drilled dowels.",
+          "Repoint spalled mortar.",
+          "Inject cracks."
+        ],
+        "partial_factors": {
+          "lambda_K_star": 0.8,
+          "lambda_Q_star": 0.8,
+          "lambda_D_star": 1.0
+        }
+      }
+    },
+    {
+      "level": "Extreme",
+      "criteria": [
+        "Vertical load-carrying ability is threatened."
+      ],
+      "typical_indications": [
+        "Lintel support has separated from the pier.",
+        "Out-of-plane movement of the spandrel.",
+        "Spandrel has slipped vertically."
+      ],
+      "restoration_measures": [
+        "Replacement or enhancement required."
+      ]
+    }
+  ]
+}

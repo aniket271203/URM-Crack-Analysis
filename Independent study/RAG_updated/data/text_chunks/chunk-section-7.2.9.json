@@ -1,0 +1,9 @@
+{
+  "title": "7.2.9 Flexural Cracking/Toe",
+  "content": "7.2.9 Flexural Cracking/Toe\nCrushing/Bed Joint Sliding\nIn this sequence of behavior, flexural cracking occurs at\nthe heel, but rocking does not begin. Instead, shear is\nredistributed to the toe, seismic forces increase, and a\ncompression failure occurs in the toe. Diagonal cracks\nform, oriented toward the corners. Initial toe crushing is\nfollowed immediately by the ultimate limit state of bed-\njoint sliding.\nThis sequence was observed in Specimens W1, W2, and\nW3 of Manzouri et al. (1995). Initial capacity appears to\nbe close to the FEMA 273 equation for toe crushing\nwith a final capacity close to the frictional strength of\nthe mortar. Under repeated cyclic loading, the toes may\neventually deteriorate to the point of vertical instability.\nSee FEMA 307 for commentary on this mode.",
+  "metadata": {
+    "section_id": "7.2.9",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_9"
+}

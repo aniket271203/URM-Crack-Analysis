@@ -1,0 +1,110 @@
+{
+  "document_id": "URM2B_Classification_Guide",
+  "title": "URM Weaker Pier Bed Joint Sliding Classification Guide",
+  "references": [
+    "id_of_section_7_3_2"
+  ],
+  "system": "URM",
+  "component_type": "Weaker Pier",
+  "behavior_mode": "Bed Joint Sliding",
+  "identification_guidelines": {
+    "by_observation": "Sliding occurs on bed joints in two basic forms: sliding on a horizontal plane, and a stair-stepped diagonal crack where head joints open and close to allow for movement on the bed joint. Pure bed joint sliding is a ductile mode with significant hysteretic energy absorption capability. Gradual degradation occurs until instability is reached.",
+    "by_analysis": "Stair-stepped cracking may resemble diagonal tension cracking; confirm by analysis that bed joint sliding governs.",
+    "note": "Figures show a single crack for simplicity, but multiple cracks stepping in each direction are possible under cyclic loading."
+  },
+  "damage_levels": [
+    {
+      "level": "Insignificant",
+      "performance_factors": {
+        "lambda_K": 0.9,
+        "lambda_Q": 0.9,
+        "lambda_D": 1.0,
+        "mu_delta": "<= 1.5"
+      },
+      "criteria": [
+        "Hairline cracks/spalled mortar in head and bed joints either on a horizontal plane or in a stair-stepped fashion.",
+        "No offset along the crack has occurred and the crack/stair-stepping is not continuous across the pier.",
+        "No cracks in masonry units."
+      ],
+      "typical_appearance_desc": "Diagram shows a single stair-stepped crack starting from the side and terminating before reaching the other side of the pier (1).",
+      "restoration_measures": [
+        "Not necessary for restoration of structural performance.",
+        "Measures may be necessary for restoration of nonstructural characteristics."
+      ]
+    },
+    {
+      "level": "Slight",
+      "criteria": [
+        "Not used."
+      ],
+      "restoration_measures": []
+    },
+    {
+      "level": "Moderate",
+      "performance_factors": {
+        "lambda_K": 0.8,
+        "lambda_Q": "0.6*",
+        "lambda_D": 1.0,
+        "alternative_calculation": "Calculate as V_bjs2 / V_bjs1",
+        "drift_ratio_limit": "<= 0.4%"
+      },
+      "criteria": [
+        "Horizontal cracks/spalled mortar at bed joints indicating in-plane offset occurred and/or opening of head joints up to ~1/4\", creating a stair-stepped pattern.",
+        "5% of courses or fewer have cracks in masonry units."
+      ],
+      "typical_appearance_desc": "Diagram (1) shows a continuous stair-stepped crack spanning the width of the pier with (2) indicating minor masonry unit cracking.",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Repoint spalled mortar and open head joints",
+          "Inject cracks and open head joints"
+        ],
+        "partial_factors": {
+          "lambda_K_star": 0.8,
+          "lambda_Q_star": "0.8*",
+          "lambda_D_star": 1.0
+        },
+        "caution": "Grout injection may increase strength but decrease deformation capacity by changing behavior to a less ductile mode."
+      }
+    },
+    {
+      "level": "Heavy",
+      "performance_factors": {
+        "lambda_K": 0.6,
+        "lambda_Q": "0.6*",
+        "lambda_D": 0.9,
+        "alternative_calculation": "Calculate as V_bjs2 / V_bjs1",
+        "drift_ratio_limit": "<= 0.8%"
+      },
+      "criteria": [
+        "Horizontal cracks/spalled mortar at bed joints indicating in-plane offset occurred and/or opening of head joints up to ~1/2\", creating a stair-stepped pattern.",
+        "5% of courses or fewer have cracks in masonry units."
+      ],
+      "typical_appearance_desc": "Diagram indicates more pronounced stair-stepped cracking (1) and masonry unit cracking (2) than the Moderate level.",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Repoint spalled mortar and open head joints",
+          "Inject cracks and open head joints"
+        ],
+        "partial_factors": {
+          "lambda_K_star": 0.8,
+          "lambda_Q_star": "0.8*",
+          "lambda_D_star": 1.0
+        }
+      }
+    },
+    {
+      "level": "Extreme",
+      "criteria": [
+        "Vertical load-carrying ability is threatened.",
+        "Stair-stepped movement is so significant that upper bricks have slid off their supporting brick.",
+        "Cracks have propagated into a significant number of courses of units.",
+        "Residual set is so significant that portions of masonry at edges of the pier have begun or are about to fall."
+      ],
+      "restoration_measures": [
+        "Replacement or enhancement required."
+      ]
+    }
+  ]
+}

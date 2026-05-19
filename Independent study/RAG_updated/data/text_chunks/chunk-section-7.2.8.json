@@ -1,0 +1,9 @@
+{
+  "title": "7.2.8 Rocking/Toe Crushing",
+  "content": "7.2.8 Rocking/Toe Crushing\nThis sequence of damage occurs when rocking (see\nSection 7.2.4) continues for several cycles, followed by\nn abrupt loss of capacity occurs as the toe crushes.\nSpecimen W3 of Abrams and Shah (1992) is an\nxample of such a phenomenon.\nThere is insufficient testing to determine parameters\nhat would allow for an analytical determination of\nwhen rocking will degenerate into toe crushing.\nntuitively, piers with higher axial stress and those\nubjected to higher drift levels and repeated cycles\nwould be more likely to experience toe crushing.\nBecause of the lack of data, this behavior is combined\nin this document with typical rocking behavior, and\nrocking capacity is set conservatively in FEMA 273.",
+  "metadata": {
+    "section_id": "7.2.8",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_8"
+}

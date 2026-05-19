@@ -1,0 +1,91 @@
+{
+  "document_id": "URM3D_Classification_Guide",
+  "title": "URM Weaker Spandrel Spandrel Joint Sliding Classification Guide",
+  "references": [
+    "id_of_section_7_3_4"
+  ],
+  "system": "URM",
+  "component_type": "Weaker Spandrel",
+  "behavior_mode": "Spandrel Joint Sliding",
+  "identification_guidelines": {
+    "by_observation": "Commonly observed in the field in running bond masonry, this form of bed joint sliding is characterized by predominantly vertical cracks at the ends of the spandrel, which look like interlocked fingers being pulling apart. This mode can be relatively ductile and allow for significant drift, provided a reliable lintel is present. As the spandrel displaces, the nonlinear mechanism of response may move to other portions of the wall such as the piers.",
+    "by_analysis": "No analysis is typically necessary to distinguish this mode. Analytical procedures are provided to estimate the reduction in capacity due to damage."
+  },
+  "damage_levels": [
+    {
+      "level": "Insignificant",
+      "performance_factors": {
+        "lambda_K": 0.9,
+        "lambda_Q": 0.9,
+        "lambda_D": 1.0,
+        "mu_delta": "<= 1.5"
+      },
+      "criteria": [
+        "1. Staggered hairline cracks/spalled mortar in head and bed joints in up to 3 courses at the ends of the spandrel. No cracks in units."
+      ],
+      "typical_appearance_desc": "Diagram shows staggered cracks (1) localized at the junction where the spandrel meets the vertical pier.",
+      "restoration_measures": [
+        "Not necessary for restoration of structural performance. (Measures may be necessary for restoration of nonstructural characteristics.)"
+      ]
+    },
+    {
+      "level": "Moderate",
+      "performance_factors": {
+        "lambda_K": 0.8,
+        "lambda_Q": "0.4^1",
+        "lambda_D": 0.9,
+        "alternative_calculation": "As an alternative, calculate per Section 7.3.4"
+      },
+      "criteria": [
+        "1. Staggered hairline cracks/spalled mortar at the ends of the spandrel in head and bed joints indicating that in-plane offset along the crack has occurred and opening of the head joints up to approximately 1/4\". No cracks in units.",
+        "2. No vertical slip of the spandrel."
+      ],
+      "typical_appearance_desc": "Diagram shows staggered cracks at both ends of the spandrel (1) with the horizontal lintel support clearly indicated (2).",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement is required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Repoint spalled mortar and open head joints.",
+          "Inject cracks and open head joints."
+        ],
+        "partial_factors": {
+          "lambda_K_star": 0.8,
+          "lambda_Q_star": "0.8^1",
+          "lambda_D_star": "1.0^1"
+        }
+      }
+    },
+    {
+      "level": "Heavy",
+      "performance_factors": {
+        "lambda_K": 0.6,
+        "lambda_Q": "0.4^1",
+        "lambda_D": 0.9,
+        "alternative_calculation": "As an alternative, calculate per Section 7.3.4"
+      },
+      "criteria": [
+        "1. Staggered hairline cracks/spalled mortar at the ends of the spandrel in head and bed joints, indicating that in-plane offset along the crack has occurred and opening of the head joints up to approximately 1/2\". No cracks in units.",
+        "2. Possibly some deterioration of units at bottom ends of spandrel, but no vertical slip of the spandrel.",
+        "3. Possibly spandrel rotation with respect to the pier."
+      ],
+      "typical_appearance_desc": "Diagram shows larger offsets at the spandrel ends (1), the lintel (2), and a specific callout for unit rotation or deterioration at the corner (3).",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement is required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Repoint spalled mortar and open head joints.",
+          "Inject cracks and open head joints."
+        ]
+      }
+    },
+    {
+      "level": "Extreme",
+      "criteria": [
+        "Vertical load-carrying ability is threatened.",
+        "Sliding and/or deterioration of the units is so significant that keying action between bricks is lost.",
+        "Lintel support has separated from the pier."
+      ],
+      "restoration_measures": [
+        "Replacement or enhancement required."
+      ]
+    }
+  ]
+}

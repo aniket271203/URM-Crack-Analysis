@@ -1,0 +1,9 @@
+{
+  "title": "7.2.11 Flexural Cracking/Toe Crushing",
+  "content": "7.2.11 Flexural Cracking/Toe Crushing\nIn this sequence of behavior, flexural cracking occurs at\nthe heel, but not rocking. Shear is redistributed to the\ntoe, the seismic load increases, and a compression\nfailure occurs in the toe. This type of behavior typically\noccurs in stockier walls with L/h > 1.25. Based on\neff\nlaboratory testing of cantilever specimens, four steps\ncan usually be identified. First, flexural cracking\nhappens at the base of the wall, but it does not\npropagate all the way across the wall. This can also\ncause a series of horizontal cracks to form above the\nheel. Second, sliding occurs on bed joints in the central\nportion of the pier. Third, diagonal cracks form at the\ntoe of the wall. Finally, large cracks form at the upper\ncorners of the wall. Failure occurs when the triangular\nportion of wall above the crack rotates off the crack or\nthe toe crushes so significantly that vertical load\ncarrying capability is compromised.\nTesting is limited to five monotonic specimens in\nEpperson and Abrams (1989), which all exhibited\nsimilar behavior, and Specimen W2 in Abrams and\nShah (1992), which was tested with quasistatic\nreversed-cyclic loading. The strength is well-predicted\nby the FEMA 273 toe crushing equation. Toe crushing\nis considered in FEMA 273 to be a force-controlled\nmode, but moderate ductility was observed in Epperson\nand Abrams (1989), with drift values at conclusion of\nthe test equal to 0.2-0.4%. In the Abrams and Shah\n(1992) test, even higher drift appears to have been\nachieved. Thus, some moderate degree of nonlinear\ncapacity is possible. As noted above, behavior is similar\nto the Manzouri et al. (1995) tests, except that bed-joint\nsliding at the base did not occur at higher drifts.",
+  "metadata": {
+    "section_id": "7.2.11",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_11"
+}

@@ -1,0 +1,105 @@
+{
+  "document_id": "URM1H_Classification_Guide",
+  "title": "URM Solid Wall Flexural Cracking/Toe Crushing Classification Guide",
+  "references": [
+    "id_of_section_7_3_2"
+  ],
+  "system": "URM",
+  "component_type": "Solid Wall",
+  "behavior_mode": "Flexural Cracking/Toe Crushing",
+  "identification_guidelines": {
+    "by_observation": "This type of behavior typically occurs in stockier walls with L/h_eff > 1.25. Based on laboratory testing, four steps can usually be identified. First, flexural cracking happens at the base of the wall, but it does not propagate all the way across the wall. This can also cause a series of horizontal cracks to form above the heel. Second, sliding occurs on bed joints in the central portion of the pier. Third, diagonal cracks form at the toe of the wall. Finally, large cracks form at the upper corners of the wall. Failure occurs when the triangular portion of wall above the crack rotates off the crack or the toe crushes so significantly that vertical load is compromised. Note that, for simplicity, the figures below only show a single crack, but under cyclic loading, multiple cracks stepping in each direction are possible.",
+    "by_analysis": "Stair-stepped cracking may resemble a form of bed joint sliding; confirm by analysis that toe crushing governs over bed joint sliding."
+  },
+  "damage_levels": [
+    {
+      "level": "Insignificant",
+      "performance_factors": {
+        "lambda_K": 0.9,
+        "lambda_Q": 1.0,
+        "lambda_D": 1.0,
+        "mu_delta": "<= 1.5"
+      },
+      "criteria": [
+        "Horizontal hairline cracks in bed joints at the heel of the wall.",
+        "Horizontal cracking on 1-3 cracks in the central portion of the wall. No offset along the crack has occurred and the crack plane is not continuous across the pier.",
+        "No cracks in masonry units."
+      ],
+      "typical_appearance_desc": "Diagram shows a solid wall with subtle horizontal hairline cracks at the base heel (1) and isolated horizontal bed joint cracks in the central mid-section (2).",
+      "restoration_measures": [
+        "Not necessary for restoration of structural performance. (Measures may be necessary for restoration of nonstructural characteristics.)"
+      ]
+    },
+    {
+      "level": "Slight",
+      "criteria": [
+        "Not used."
+      ],
+      "restoration_measures": []
+    },
+    {
+      "level": "Moderate",
+      "criteria": [
+        "Not used."
+      ],
+      "restoration_measures": []
+    },
+    {
+      "level": "Heavy",
+      "performance_factors": {
+        "lambda_K": 0.8,
+        "lambda_Q": 0.8,
+        "lambda_D": 1.0,
+        "drift_ratio_limit": "Delta/h_eff <= 0.3%"
+      },
+      "criteria": [
+        "Horizontal hairline cracks in bed joints at the heel of the wall.",
+        "Horizontal cracking on 1-3 cracks in the central portion of the wall. Some offset along the crack may have occurred.",
+        "Diagonal cracking at the toe of the wall, likely to be through the units, and some of units may be spalled."
+      ],
+      "typical_appearance_desc": "Diagram illustrates horizontal base cracks (1), central bed joint cracking with possible offset (2), and distinct diagonal cracks at the wall toe (3) propagating through the masonry units.",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement is required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Repoint spalled mortar.",
+          "Inject cracks."
+        ],
+        "partial_factors": {
+          "lambda_K_star": 0.9,
+          "lambda_Q_star": 0.9,
+          "lambda_D_star": 1.0
+        }
+      }
+    },
+    {
+      "level": "Extreme",
+      "performance_factors": {
+        "lambda_K": 0.6,
+        "lambda_Q": 0.6,
+        "lambda_D": 0.9,
+        "drift_ratio_limit": "Delta/h_eff <= 0.9%"
+      },
+      "criteria": [
+        "Horizontal hairline cracks in bed joints at the heel of the wall.",
+        "Horizontal cracking on 1 or more cracks in the central portion of the wall. Offset along the crack will have occurred.",
+        "Diagonal cracking at the toe of the wall, likely to be through the units, and some of units may be spalled.",
+        "Large cracks have formed at upper portions of the wall. In walls with aspect ratios of L/h_eff > 1.5, these cracks will be diagonally oriented; for more slender piers, cracks will be more vertical and will go through units."
+      ],
+      "typical_appearance_desc": "Diagram shows extensive damage including heel cracks (1), central offsets (2), severe diagonal toe cracking (3), and large stair-stepped or diagonal cracks at the upper opposite corner (4).",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement is required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Replace/drypack damaged units.",
+          "Repoint spalled mortar.",
+          "Inject cracks.",
+          "Install pins and drilled dowels in toe regions."
+        ],
+        "partial_factors": {
+          "lambda_K_star": 0.9,
+          "lambda_Q_star": 0.8,
+          "lambda_D_star": 1.0
+        }
+      }
+    }
+  ]
+}

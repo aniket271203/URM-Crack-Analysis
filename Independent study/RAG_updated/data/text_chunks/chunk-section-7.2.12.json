@@ -1,0 +1,9 @@
+{
+  "title": "7.2.12 Spandrel-Unit Cracking",
+  "content": "7.2.12 Spandrel-Unit Cracking\nIn this type of damage, the moment at the end of the\nspandrel is not relieved by sliding, but instead causes\nbrittle vertical cracking though the masonry units.\nDepending on the lintel construction, this can lead to a\nlocal falling hazard. It also can alter the height of the\npiers.\nThe cracked portion of the spandrel is assumed to lack\nboth shear and tensile capacity. As a result, only the\nuncracked section is assumed to contribute to the\nstrength and displacement capacity. See Section 7.3 for\ndetails.",
+  "metadata": {
+    "section_id": "7.2.12",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_12"
+}

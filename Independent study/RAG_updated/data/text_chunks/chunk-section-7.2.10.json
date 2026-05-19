@@ -1,0 +1,9 @@
+{
+  "title": "7.2.10 Flexural Cracking/Diagonal",
+  "content": "7.2.10 Flexural Cracking/Diagonal\nTension\nIn this mode of behavior, flexural racking occurs at the\nheel, but not rocking. Shear is redistributed to the toe,\nseismic forces increase, a diagonal tension crack\ndevelops, and capacity can be rapidly lost. Cracking\ntypically occurs in the units as well as the joints. See\nSection 7.2.14 for more details.\nStrength capacity is assumed to be the same as the\nFEMA 273 equation for diagonal tension capacity;\ndisplacements of approximately 0.5% have been\nobserved in tests.",
+  "metadata": {
+    "section_id": "7.2.10",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_10"
+}

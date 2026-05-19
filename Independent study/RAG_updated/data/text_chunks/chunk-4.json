@@ -1,0 +1,115 @@
+{
+  "document_id": "URM1F_Classification_Guide",
+  "title": "URM Solid Wall Flexural Cracking / Toe Crushing / Bed Joint Sliding Classification Guide",
+  "references": [
+    "id_of_section_7_3_2"
+  ],
+  "system": "URM",
+  "component_type": "Solid Wall",
+  "behavior_mode": "Flexural Cracking / Toe Crushing / Bed Joint Sliding",
+  "identification_guidelines": {
+    "by_observation": "This type of moderately ductile behavior has been experimentally observed in walls with L/h_eff ≈ 1.7 in which bed joint sliding and toe crushing strength capacities are similar. Damage occurs in the following sequence: First, flexural cracking occurs at the heel of the wall. Then diagonally-oriented cracks appear at the toe of the wall, typically accompanied by spalling and crushing of the units. In some cases, toe crushing is immediately followed by a steep inclined crack propagating upward from the toe. Next, sliding occurs along a horizontal bed joint near the base of the wall, accompanied in some cases by stair-stepped bed joint sliding at upper portions of the wall. With repeated cycles of loading, diagonal cracks increase. Eventually, crushing of the toes or excessive sliding leads to failure.",
+    "by_analysis": "At higher damage levels, cracking may be similar to URM1H; however, in URM1F, the bed joint sliding will occur at the base of the wall, in addition to the center of the wall. Confirm by analysis that bed joint sliding capacities are sufficiently low to trigger URM1F.",
+    "caution": "At low damage levels, flexural cracking may be similar to cracking that occurs in other modes."
+  },
+  "damage_levels": [
+    {
+      "level": "Insignificant",
+      "performance_factors": {
+        "lambda_K": 1.0,
+        "lambda_Q": 1.0,
+        "lambda_D": 1.0,
+        "mu_delta": "<= 1.5"
+      },
+      "criteria": [
+        "1. Horizontal hairline cracks in bed joints at the heel of the wall.",
+        "2. Possibly diagonally-oriented cracks and minor spalling at the toe of the wall."
+      ],
+      "typical_appearance_desc": "Diagram shows a solid wall with localized hairline horizontal cracks at the bottom right heel (1) and small diagonal cracks at the bottom left toe (2).",
+      "restoration_measures": [
+        "Not necessary for restoration of structural performance.",
+        "(Measures may be necessary for restoration of nonstructural characteristics.)"
+      ]
+    },
+    {
+      "level": "Slight",
+      "criteria": [
+        "Not used."
+      ],
+      "restoration_measures": []
+    },
+    {
+      "level": "Moderate",
+      "performance_factors": {
+        "lambda_K": 0.9,
+        "lambda_Q": "0.6^1",
+        "lambda_D": 0.9,
+        "alternative_calculation": "As an alternative, calculate as V_bjs2 / V_tc",
+        "drift_ratio_limit": "Delta/h_eff <= 0.8%"
+      },
+      "criteria": [
+        "1. Horizontal cracks/spalled mortar at bed joints at or near the base of the wall indicating that in-plane offset along the crack has occurred up to approximately 1/4\".",
+        "2. Possibly diagonally-oriented cracks and spalling at the toe of the wall. Cracks extend upward several courses.",
+        "3. Possibly diagonally-oriented cracks at upper portions of the wall which may be in the units."
+      ],
+      "typical_appearance_desc": "Diagram shows horizontal base sliding (1), significant toe crushing/cracking (2), and a steep diagonal crack propagating through the center/upper courses (3).",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Replace/drypack damaged units.",
+          "Repoint spalled mortar and open head joints.",
+          "Inject cracks and open head joints.",
+          "Install pins and drilled dowels in toe regions."
+        ],
+        "partial_factors": {
+          "lambda_K_star": "1.0^1",
+          "lambda_Q_star": "1.0^1",
+          "lambda_D_star": "1.0^1"
+        },
+        "technical_note": "1. In some cases, grout injection may actually increase strength, but decrease deformation capacity, by changing behavior from bed joint sliding to a less ductile behavior mode (see FEMA 307, Section 4.1.3)."
+      }
+    },
+    {
+      "level": "Heavy",
+      "performance_factors": {
+        "lambda_K": 0.8,
+        "lambda_Q": "0.6^1",
+        "lambda_D": 0.9,
+        "alternative_calculation": "As an alternative, calculate as V_bjs2 / V_tc",
+        "drift_ratio_limit": "Delta/h_eff <= 1.2%"
+      },
+      "criteria": [
+        "1. Horizontal bed joint cracks near the base of the wall similar to Moderate, except width is up to approximately 1/2\".",
+        "2. Possibly extensive diagonally-oriented cracks and spalling at the toe of the wall. Cracks extend upward several courses.",
+        "3. Possibly diagonally-oriented cracks up to 1/2\" at upper portions of the wall."
+      ],
+      "typical_appearance_desc": "Diagram shows widened base sliding offset (1), extensive toe deterioration (2), and severe diagonal cracking (3) reaching 1/2 inch in width.",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Replace/drypack damaged units.",
+          "Repoint spalled mortar and open head joints.",
+          "Inject cracks and open head joints.",
+          "Install pins and drilled dowels in toe regions."
+        ],
+        "partial_factors": {
+          "lambda_K_star": "1.0^1",
+          "lambda_Q_star": "1.0^1",
+          "lambda_D_star": "1.0^1"
+        }
+      }
+    },
+    {
+      "level": "Extreme",
+      "criteria": [
+        "Vertical load-carrying ability is threatened.",
+        "Stair-stepped movement is so significant that upper bricks have slid off their supporting brick.",
+        "Toes have begun to disintegrate.",
+        "Residual set is so significant that portions of masonry at the edges of the pier have begun or are about to fall."
+      ],
+      "restoration_measures": [
+        "Replacement or enhancement required."
+      ]
+    }
+  ]
+}

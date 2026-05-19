@@ -1,0 +1,23 @@
+{
+  "document_id": "id_of_section_7_3_5",
+  "title": "7.3.5 Evaluation Procedures for Out-of-Plane Behavior of Wall and Pier Components",
+  "system": "URM",
+  "scope": "Prescriptive strength and deformation acceptance criteria for out-of-plane wall demands.",
+  "performance_level_criteria": {
+    "immediate_occupancy": {
+      "requirement": "Flexural stresses must not exceed the tensile capacity of the wall.",
+      "compliance_logic": "Any level of damage above 'Insignificant' (where flexural cracking has occurred) implies the wall does not meet this performance level."
+    },
+    "life_safety_and_collapse_prevention": {
+      "standard_reference": "FEMA 273 (ATC, 1997a) Table 7-4 provides permissible h/t ratios for walls without prior damage.",
+      "damaged_wall_calculation": "Permissible h/t ratio = (Table 7-4 Ratio) * (lambda_h_t-factor).",
+      "factor_source": "Component Guides (e.g., URM1M) specify the required lambda_h_t-factors based on damage severity."
+    }
+  },
+  "in_plane_interaction": {
+    "guideline": "The Component Guide provides additional lambda-factors for instances where a wall with out-of-plane damage is also acting as a component in a force-deformation curve parallel to its length (in-plane loading)."
+  },
+  "regulatory_references": [
+    "FEMA 273 (ATC, 1997a)"
+  ]
+}

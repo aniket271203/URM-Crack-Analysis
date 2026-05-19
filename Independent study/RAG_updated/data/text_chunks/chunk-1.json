@@ -1,0 +1,106 @@
+{
+  "document_id": "URM2A_Classification_Guide",
+  "title": "URM Weaker Pier Wall-Pier Rocking Classification Guide",
+  "references": [
+    "id_of_section_7_3_2"
+  ],
+  "system": "URM",
+  "component_type": "Weaker Pier",
+  "behavior_mode": "Wall-Pier Rocking",
+  "identification_guidelines": {
+    "by_observation": "Rocking-critical piers form horizontal flexural cracks at the top and bottom of piers. Because the cracks typically close as the pier comes back to rest at the end of ground shaking, these cracks can be quite subtle when only a few cycles of rocking have occurred and when pier drift ratios during shaking were small. As damage increases, softening of the pier can occur due to cracking, and the pier may begin to 'walk' out-of-plane at the top and bottom. At the highest damage levels, crushing of units at the corners can occur.",
+    "by_analysis": "As damage increases to the Moderate level and beyond, some small cracking within the pier may occur. Confirm by analysis that rocking governs over diagonal tension and bed joint sliding.",
+    "caution": "If horizontal cracks are located directly below wall-diaphragm ties, damage may be due to bed joint sliding associated with tie damage. If a horizontal crack is observed at midheight of the pier, see URM1M."
+  },
+  "damage_levels": [
+    {
+      "level": "Insignificant",
+      "performance_factors": {
+        "lambda_K": 0.8,
+        "lambda_Q": 1.0,
+        "lambda_D": 1.0,
+        "mu_delta": "<= 1.5"
+      },
+      "criteria": [
+        "Hairline cracks/spalled mortar in bed joints at top and bottom of pier."
+      ],
+      "typical_appearance_desc": "Diagram shows a masonry pier with horizontal hairline cracks specifically located at the very top and very bottom bed joints where the pier meets the horizontal boundary elements.",
+      "restoration_measures": [
+        "Not necessary for restoration of structural performance.",
+        "Measures may be necessary for restoration of nonstructural characteristics."
+      ]
+    },
+    {
+      "level": "Slight",
+      "criteria": [
+        "Not used."
+      ],
+      "restoration_measures": []
+    },
+    {
+      "level": "Moderate",
+      "performance_factors": {
+        "lambda_K": 0.6,
+        "lambda_Q": 0.9,
+        "lambda_D": 1.0,
+        "drift_ratio_limit": "0.4%"
+      },
+      "criteria": [
+        "Hairline cracks/spalled mortar in bed joints at top and bottom of pier.",
+        "Possible hairline cracking/spalled mortar in bed joints within piers."
+      ],
+      "typical_appearance_desc": "Diagram illustrates horizontal cracks at the top and bottom boundaries (1) and additional internal bed joint cracking (2) within the main body of the masonry pier.",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement is required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Repoint spalled mortar"
+        ],
+        "partial_factors": {
+          "lambda_K_star": 0.8,
+          "lambda_Q_star": 0.9,
+          "lambda_D_star": 1.0
+        }
+      }
+    },
+    {
+      "level": "Heavy",
+      "performance_factors": {
+        "lambda_K": 0.4,
+        "lambda_Q": 0.8,
+        "lambda_D": 0.7,
+        "drift_ratio_limit": "0.8%"
+      },
+      "criteria": [
+        "Hairline cracks/spalled mortar in bed joints at top and bottom of pier, plus one or more of:",
+        "Hairline cracking/spalled mortar in bed joints within piers, but bed joints typically do not open.",
+        "Possible out-of-plane or in-plane movement at top and bottom of piers ('walking').",
+        "Crushed/spalled bricks at corners of piers."
+      ],
+      "typical_appearance_desc": "Diagram shows significant degradation including boundary cracks (1), internal cracks (2), visible shifting/walking at the base (3), and crushing/spalling of the masonry units at the top corners (4).",
+      "restoration_measures": {
+        "full_restoration": "Replacement or enhancement is required for full restoration of seismic performance.",
+        "partial_restoration": [
+          "Replace/drypack damaged units",
+          "Repoint spalled mortar",
+          "Inject cracks"
+        ],
+        "partial_factors": {
+          "lambda_K_star": 0.8,
+          "lambda_Q_star": 0.9,
+          "lambda_D_star": 1.0
+        }
+      }
+    },
+    {
+      "level": "Extreme",
+      "criteria": [
+        "Vertical load-carrying ability is threatened.",
+        "Significant out-of-plane or in-plane movement at top and bottom of piers ('walking').",
+        "Significant crushing/spalling of bricks at corners of piers."
+      ],
+      "restoration_measures": [
+        "Replacement or enhancement required."
+      ]
+    }
+  ]
+}

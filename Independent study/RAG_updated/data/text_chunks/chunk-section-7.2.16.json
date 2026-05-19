@@ -1,0 +1,9 @@
+{
+  "title": "7.2.16 Out-of-Plane Flexural Response",
+  "content": "7.2.16 Out-of-Plane Flexural Response\nOut-of-plane failures are common in URM buildings.\nUsually they occur due to the lack of adequate wall ties\nas discussed in Table 7-1. When floor and roof ties are\nadequate, the wall may fail due to out-of-plane bending\nbetween floor levels. One mode of failure observed in\nexperiments is rigid-body out-of-plane rocking\noccurring on three cracks: one at the top of the wall, one\nat the bottom, and one at midheight. The ultimate limit\nstate is that the walls rock too far and overturn.\nImportant variables identified by ABK (1984) and\nAdham (1985) were the vertical stress on the wall, the\nheight-to-thickness ratio of the wall, and the input\nvelocity provided to the wall by the diaphragms. As\nrocking increases, the mortar and masonry units at the\ncrack locations can degrade, and residual offsets can\noccur at the crack planes.\nABK (1984) and Adham (1985) provide a graph, based\non ABK (1981c), showing the relationship between the\nvelocity at the top and bottom of the piers, the\noverburden ratio of superimposed load over wall load,\nand the height-to-thickness ratio. The graph indicates\nthat walls meeting the requirements have a \u201c98%\nprobability of survival.\u201d The authors did not provide\nrelationships between damage and spectral acceleration\nor peak ground acceleration because input velocities\nwere found to be a better predictor of wall performance.\nTherefore, it is difficult to relate damage to the spectral\naccelerations and nonlinear static procedures used in\ndocuments such as FEMA 273 for in-plane motions. As\na result, the prescriptive h/t ratio concept is retained in\nthis document.",
+  "metadata": {
+    "section_id": "7.2.16",
+    "source": "fema-306_raw_text.txt"
+  },
+  "document_id": "id_of_section_7_2_16"
+}

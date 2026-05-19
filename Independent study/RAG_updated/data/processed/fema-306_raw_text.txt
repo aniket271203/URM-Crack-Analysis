@@ -1,0 +1,526 @@
+7.2 Unreinforced Masonry
+Component Types and
+Behavior Modes
+
+7.2.1 Non-Wall Components
+For the procedures in this document, structural systems
+are subdivided into elements, which are further
+subdivided into components that can be related to
+specific modes of behavior during seismic shaking.
+Components within URM bearing wall buildings
+include parapets, appendages, wall-diaphragm ties,
+diaphragms, and walls. The focus of this document is
+in-plane wall behavior modes. For other building types,
+such as concrete wall buildings, earthquake damage is
+primarily related to the in-plane behavior of the wall or
+displacement incompatibility between the walls and
+other elements. For URM bearing wall buildings,
+however, other elements and components figure
+prominently in observations of actual damage. In many
+cases, non-wall component damage may occur before
+in-plane damage to the wall becomes significant. These
+other features and their common behavior modes are
+discussed briefly below. The remainder of the document
+focuses on wall elements and components.
+
+Parapets: These short extensions of walls above the
+roof typically occur at the perimeter of the buildings
+and are primarily present for fire safety or aesthetic
+reasons. As originally constructed, they are not braced
+back to the roof and are thus susceptible to brittle
+flexural out-of-plane failure (see Figures 7-1 and 7-2).
+Braced parapets typically fail at the connections
+between the parapet and the brace (see wall-diaphragm
+tie failures for similar examples).
+Appendages: This category includes veneer, cornices,
+friezes, pediments, dentils, brackets, statuary, and
+finials—in short, any minor masonry feature that is
+susceptible to falling. Damage may result from
+excessive accelerations of appendages and
+deformations that cause connection failures between the
+appendage and the structure; delamination of veneer
+can result from missing or inadequate ties; deformation
+incompatibility between the appendage and structure
+can cause cracking and spalling; and pounding against
+adjacent buildings can lead to localized falling hazards
+(Figures 7-3 and 7-4).
+Wall-Diaphragm Ties: In the United States, wall-to-
+diaphragm ties in existing URM buildings are generally
+limited to low-strength tension connections called
+government anchors” or “dog anchors,” in which one
+end of a steel bar is embedded one wythe in from the
+outer face of the wall and the other end is hammered
+into the side of a wood joist. These ties typically occur
+where joists bear on the walls, not where they are
+parallel to the walls. Wall-diaphragm separation due to
+inadequate or missing tension ties can lead to out-of-
+lane failures of walls; missing shear ties can lead to the
+
+diaphragm sliding along the in-plane walls and then
+pushing against the walls perpendicular to the
+movement, resulting in corner damage to the walls (see
+Figures 7-5, 7-6 and 7-7). In rehabilitated buildings, a
+variety of tie failures have been observed, including
+bond failures between the masonry and the cementitious
+grout used in older drilled dowel connections, cone
+failures due to shallow embedment and/or weak
+masonry, pullthrough of through-plated anchors, and
+bed-joint sliding near ties. Wall-diaphragm failures are
+often associated with thin walls (such as two-wythe
+walls at upper stories), poor mortar conditions, and lack
+of sufficient overburden pressure.
+Floor and Roof Diaphragms: Three categories of
+diaphragms can be identified: rigid concrete slab
+diaphragms, flexible wood and metal diaphragms, and
+intermediate systems such as hollow concrete planks
+and brick and HCT arches spanning between steel
+beams. In flexible diaphragms, excessive deflections
+can lead to out-of-plane wall damage. Hollow concrete
+plank systems may lack adequate interconnections to
+function as a continuous load path. Brick and HCT arch
+systems may be susceptible to vertical failure if beams
+separate locally. See Figure 7-8 for diagrams of some of
+the diaphragm types. Rigid concrete diaphragms are
+generally not significantly damaged or the source of
+damage to other elements in URM bearing wall
+buildings, but they do affect the dynamic behavior of
+the building.
+Table 7-1 summarizes behavior modes for non-wall
+URM elements, providing the source of the deficiency,
+type of damage, and intensity of ground shaking usually
+required to produce the damage. The intensity of
+ground shaking is a qualitative judgment based on
+actual earthquake reconnaissance and damage
+collection efforts. Individual buildings may respond in a
+different manner. Even though some types of damage
+do not generally lead to collapse, they can nonetheless
+endanger life safety either within the building or around
+the perimeter due to localized falling hazards. A simple
+example is an exterior parapet failure, which rarely
+leads to building collapse, but still poses a risk to
+pedestrians adjacent to the wall. Damage to non-URM
+wall elements is typically brittle or force-controlled,
+and it often does not affect the overall force-
+displacement relationship for the building. The
+component guides in this volume focus on wall damage.
+For non-URM wall elements that can affect the overall
+force-displacement relationship, such as wall-
+diaphragm ties, it is important to include their behavior
+and characteristics in modeling efforts.
+
+7.2.2 Wall Components
+URM wall elements can be subdivided into five
+Component Types as shown in Figure 7-9, based on the
+mode of inelastic behavior. Figure 7-9 also shows some
+of the common behavior modes. The majority of modes
+relate to in-plane damage, but out-of-plane damage can
+occur as well in each of the systems, often in
+combination with in-plane damage. The five component
+types are described below.
+URM1: Solid cantilever walls. Such walls are typically
+found adjacent to other buildings or on alleys, and they
+act as cantilevers up from the foundation.
+URM2: This component is a weak pier in a perforated
+wall. In this system, inelastic deformation occurs in the
+piers.
+URM3: This component is a weak spandrel in a
+erforated wall. Inelastic deformation occurs first in the
+pandrels, which may create multistory piers similar to
+URM1 or URM2 and then lead to inelastic deformation
+nd damage in the piers.
+URM4: This component is a strong spandrel in a weak
+ier-strong spandrel mechanism. By definition, it
+hould not suffer damage, and it is not discussed further
+n the report.
+URM5: Perforated wall with panel zone weak joints.
+nelastic deformation occurs in the region where the
+ier and spandrel intersect. Such damage is not
+bserved generally in experimental tests, nor is it seen
+n actual earthquakes, except at outer piers of upper
+tories. In this document, such damage is considered a
+ase of corner damage and, when caused by in-plane
+emands, is addressed as part of the URM3 spandrel
+rovisions.
+Table 7-2 summarizes behavior types for URM wall
+omponents identified above. The table provides an
+
+indication of the ductility associated with a behavior
+mode, and the frequency with which such modes are
+observed. There are several categories for frequency of
+occurrence: “common in field” means that the mode has
+been frequently observed in earthquakes, even those of
+moderate size; “possible” means that the mode may not
+be explicitly documented in the literature, but it seems
+reasonable to assume it has occurred or will occur in
+earthquakes; “seen in experiments” means that such
+modes have been reported in experiments and may have
+occurred in some earthquakes; “theoretical” means that
+the mode, while theoretically possible, has not been
+widely reported in the literature, if at all. “Unlikely”
+means that, even though a mode has been reported for
+another component, it is unlikely to occur in the
+component under consideration. The modes listed in
+Table 7-2 are described in greater detail in the following
+sections. Component Guides have been developed for
+the damage resulting from the common modes and are
+shaded in Table 7-2; the designations such as
+“URM2A” refer to a specific guide.
+
+7.2.3 Foundation Rocking
+Rocking of a wall and its foundation on the supporting
+oil has been observed in the field. Though recognized
+s a potentially favorable mode of nonlinear response
+nd a source of damping rather than significant damage,
+xcessive rocking could theoretically lead to some
+nstability and nonstructural damage in the
+uperstructure, particularly if various walls rock out-of-
+hase or elements attached to the walls cannot tolerate
+he wall drift. See FEMA 273 and ATC-40 for an
+valuation methodology for foundation rocking.
+
+7.2.4 Wall-Pier Rocking
+n the wall-pier rocking behavior mode, after flexural
+racking develops at the heel, the wall or pier acts as a
+igid body rotating about the toe. The rocking mode
+ypically occurs when material shear capacity is high,
+iers are slender, and compressive stress is low. Post-
+racking deformations can be large and relatively stable
+or many cycles. The ultimate limit state and the
+eflection at which it occurs are not well defined by the
+esearch, but three possible damage types can occur: in-
+
+plane overturning, gradual degradation and softening of
+the pier, and excessive out-of-plane residual
+displacements (“walking”) of the pier, leading to
+instability.
+The strength and displacement capacities of an element
+in rocking are based on FEMA 273, where the “d” drift
+value of 0.4h /L was established. Currently available
+experimental results are insufficient to determine the
+relative influence of number of cycles, drift, and
+ductility on rocking degradation. In the field, it is often
+difficult to find evidence of rocking, because the cracks
+close at the completion of shaking. However, horizontal
+cracks at the top and bottom of piers have been
+observed, particularly as pointing mortar spalls.
+
+7.2.5 Bed-Joint Sliding
+In this type of behavior, sliding occurs on bed joints.
+Commonly observed both in the field and in
+experimental tests, there are two basic forms: sliding on
+a horizontal plane, and a stair-stepped diagonal crack
+where the head joints open and close to allow for
+movement on the bed joint. See Figure 7-10 for an
+example of typical stair-stepped bed-joint sliding
+observed in the field. Pure bed-joint sliding is a ductile
+mode with significant hysteretic energy dissipation
+capability. If sliding continues in the absence of one of
+the less-ductile modes noted in the sections that follow,
+then gradual degradation of the cracking region occurs
+until instability is reached. Theoretically possible, but
+not widely reported, is the case of stair-stepped
+cracking in which sliding goes so far that an upper brick
+slides off a lower brick.
+The strength and displacement capacities (in shear) for
+bed-joint sliding are based on FEMA 273, which uses a
+Mohr-Coulomb model originally developed as part of
+the ABK research. A Mohr-Coulomb model includes a
+bond and friction component. There are many
+uncertainties in this model, in relating the in-situ testing
+to the model, and in the in-situ testing itself. The FEMA
+73 equation for shear capacity is:
+V = v A = A [0.75(0.75v +P /A )]/1.5 (7-1)
+where:
+v = the average test value from in-place testing
+te
+P = the expected gravity compressive force
+CE
+A = the area of net mortared/grouted section.
+n
+The model was calibrated with limited empirical tests
+using brick units, which resulted in the first 0.75
+coefficient. Calibrations for other types of masonry
+such as ungrouted CMU or HCT have not been done.
+The model is most appropriate for estimating strength
+before cracking; after cracking the bond capacity will
+be eroded, and the strength is likely to be based on only
+the friction portion of the equation. Significant strength
+degradation has been observed in experiments at drifts
+of 0.3-0.4% which are likely to correspond to complete
+erosion of bond capacity. See Sections 7.3 and FEMA
+307 for the implications of strength degradation due to
+sliding.
+The v value representing bond strength is derived from
+te
+the average of the individual push test values, v ,
+to
+adjusted for dead load by the equation:
+v = V /A - p , (7-2)
+to test b D+L
+where:
+V = the test value
+test
+A = the net mortared area of the bed joints
+above and below the test
+p = the estimated gravity stress at the test loca-
+tion.
+A does not include the potential resistance of the collar
+joint; the influence of collar-joint fill is applied later to
+the v equation with the second 0.75 factor. This factor
+is waived if collar-joint fill is not present. While this
+simplifies the data reduction, it is less accurate than
+addressing the effect of fill in the collar joint at the test
+location itself. In many instances, it is difficult to
+determine the extent of the collar-joint fill. It can also
+be difficult to determine the actual gravity stress at a
+test location in walls with irregular openings. In some
+cases, flat-jack testing can be used to estimate gravity
+stresses. In FEMA 273, a 100 psi limit is set on v ;
+although such a limit may be appropriate for design
+purposes, it is inappropriate for evaluating actual
+damage. The 1.5 factor in the v equation is to relate the
+average shear of V/A to the critical shear value of 1.5
+V/A , as derived from a parabolic distribution of shear
+in a rectangular section. ABK (1984) indicates that the
+1.5 factor may overestimate the critical shear in long
+walls without openings.
+Finally, the in-place push test has a number of
+uncertainties. Experience has shown that test results can
+vary substantially within the same masonry class, with
+coefficients of variation of 0.30 or more when the
+required number of tests are performed. This may be
+due to actual material variations, but it is also probably
+due in part to the uncertainty in determining when
+“either a crack can be seen or slip occurs”—the
+governing criteria in UBC Standard 21-6 (ICBO, 1994)
+for determining the test load, V . Alternatives have
+been proposed to define V as the load occurring when
+the load-deflection curve stiffness is reduced to a
+certain percentage of the initial stiffness, or more
+simply, when a certain threshold deflection is reached.
+
+7.2.6 Bed-Joint Sliding at Wall Base
+Observed in experiments, this mode is a variation of
+bed-joint sliding in which the sliding occurs on the
+surface where the URM wall meets the foundation.
+Strength and displacement capacities are assumed to be
+similar to bed-joint sliding as described in
+Section 7.2.5.
+
+7.2.7 Spandrel-Joint Sliding
+Commonly observed in the field in running bond
+masonry, this form of bed-joint sliding in the ends of the
+spandrel resembles interlocked fingers pulling apart,
+and it occurs when the in-plane moment capacity of the
+spandrel is reached, but before the shear capacity of the
+spandrel is reached. This mode can be relatively ductile
+and can allow for significant drift, provided a reliable
+lintel is present. As the spandrel displaces, the nonlinear
+mechanism of response may move to other portions of
+the wall such as the piers.
+The strength and displacement capacity are based on a
+modified version of the bed-joint sliding equation in
+FEMA 273. See Section 7.3 for details.
+
+7.2.8 Rocking/Toe Crushing
+This sequence of damage occurs when rocking (see
+Section 7.2.4) continues for several cycles, followed by
+n abrupt loss of capacity occurs as the toe crushes.
+Specimen W3 of Abrams and Shah (1992) is an
+xample of such a phenomenon.
+There is insufficient testing to determine parameters
+hat would allow for an analytical determination of
+when rocking will degenerate into toe crushing.
+ntuitively, piers with higher axial stress and those
+ubjected to higher drift levels and repeated cycles
+would be more likely to experience toe crushing.
+Because of the lack of data, this behavior is combined
+in this document with typical rocking behavior, and
+rocking capacity is set conservatively in FEMA 273.
+
+7.2.9 Flexural Cracking/Toe
+Crushing/Bed Joint Sliding
+In this sequence of behavior, flexural cracking occurs at
+the heel, but rocking does not begin. Instead, shear is
+redistributed to the toe, seismic forces increase, and a
+compression failure occurs in the toe. Diagonal cracks
+form, oriented toward the corners. Initial toe crushing is
+followed immediately by the ultimate limit state of bed-
+joint sliding.
+This sequence was observed in Specimens W1, W2, and
+W3 of Manzouri et al. (1995). Initial capacity appears to
+be close to the FEMA 273 equation for toe crushing
+with a final capacity close to the frictional strength of
+the mortar. Under repeated cyclic loading, the toes may
+eventually deteriorate to the point of vertical instability.
+See FEMA 307 for commentary on this mode.
+
+7.2.10 Flexural Cracking/Diagonal
+Tension
+In this mode of behavior, flexural racking occurs at the
+heel, but not rocking. Shear is redistributed to the toe,
+seismic forces increase, a diagonal tension crack
+develops, and capacity can be rapidly lost. Cracking
+typically occurs in the units as well as the joints. See
+Section 7.2.14 for more details.
+Strength capacity is assumed to be the same as the
+FEMA 273 equation for diagonal tension capacity;
+displacements of approximately 0.5% have been
+observed in tests.
+
+7.2.11 Flexural Cracking/Toe Crushing
+In this sequence of behavior, flexural cracking occurs at
+the heel, but not rocking. Shear is redistributed to the
+toe, the seismic load increases, and a compression
+failure occurs in the toe. This type of behavior typically
+occurs in stockier walls with L/h > 1.25. Based on
+eff
+laboratory testing of cantilever specimens, four steps
+can usually be identified. First, flexural cracking
+happens at the base of the wall, but it does not
+propagate all the way across the wall. This can also
+cause a series of horizontal cracks to form above the
+heel. Second, sliding occurs on bed joints in the central
+portion of the pier. Third, diagonal cracks form at the
+toe of the wall. Finally, large cracks form at the upper
+corners of the wall. Failure occurs when the triangular
+portion of wall above the crack rotates off the crack or
+the toe crushes so significantly that vertical load
+carrying capability is compromised.
+Testing is limited to five monotonic specimens in
+Epperson and Abrams (1989), which all exhibited
+similar behavior, and Specimen W2 in Abrams and
+Shah (1992), which was tested with quasistatic
+reversed-cyclic loading. The strength is well-predicted
+by the FEMA 273 toe crushing equation. Toe crushing
+is considered in FEMA 273 to be a force-controlled
+mode, but moderate ductility was observed in Epperson
+and Abrams (1989), with drift values at conclusion of
+the test equal to 0.2-0.4%. In the Abrams and Shah
+(1992) test, even higher drift appears to have been
+achieved. Thus, some moderate degree of nonlinear
+capacity is possible. As noted above, behavior is similar
+to the Manzouri et al. (1995) tests, except that bed-joint
+sliding at the base did not occur at higher drifts.
+
+7.2.12 Spandrel-Unit Cracking
+In this type of damage, the moment at the end of the
+spandrel is not relieved by sliding, but instead causes
+brittle vertical cracking though the masonry units.
+Depending on the lintel construction, this can lead to a
+local falling hazard. It also can alter the height of the
+piers.
+The cracked portion of the spandrel is assumed to lack
+both shear and tensile capacity. As a result, only the
+uncracked section is assumed to contribute to the
+strength and displacement capacity. See Section 7.3 for
+details.
+
+7.2.13 Corner Damage
+This form of damage is commonly observed at the
+intersection of the roof and walls subjected to in-plane
+and out-of-plane demands in moderate earthquakes. See
+Figures 7-11 and 7-12 for a diagram and photo of this
+damage type. Although not studied in experiments, it is
+likely to result from a combination of any of three
+possible causes:
+• When a roof diaphragm without shear anchorage
+moves parallel to the walls subjected to in-plane
+demands, the walls subjected to out-of-plane
+demands may be punched outward. The tensile
+capacity of the wall (from the strength of the bed
+joints) is exceeded locally, and the wall corner falls.
+• Damage may be exacerbated by cracking resulting
+from the horizontal spanning of the wall. In a
+horizontal span, there is bending restraint at the ends
+of the wall due to the returns around the corner. If
+the resulting moment at the wall ends exceeds the
+capacity, a vertical crack occurs at the corner.
+For walls with openings near the corner, in-plane
+demands force moments into the joint between the
+outer pier at the top story and the adjacent spandrel.
+The moment places tensile demands on the head and
+bed joints at the pier/spandrel intersection, causing a
+diagonal crack to form.
+Capacities are difficult to identify for the first two
+auses; the third is covered in a methodology developed
+n Section 7.3.
+
+7.2.14 Preemptive Diagonal Tension
+n this behavior mode, a diagonal tension crack forms
+without significant ductile response. Typical diagonal
+ension cracking—resulting from strong mortar, weak
+nits, and high compressive stress—can be identified
+y diagonal cracks (“X” cracks) that propagate through
+he units. In many cases, the cracking is sudden and
+rittle, and vertical load capacity drops quickly. The
+racks may then extend to the toe, and the triangles
+bove and below the crack separate. In a few cases, the
+oad drop may be more gradual with cracks increasing
+n size and extent with each cycle.
+A second form of diagonal tension cracking exists with
+weak mortar, strong units, and low compressive stress,
+when the cracks propagate in a stair-stepped manner in
+ead and bed joints. In Specimen MA of Calvi and
+Magenes (1994), this behavior was observed (Magenes,
+997).
+Capacity is based on the FEMA 273 equation for
+iagonal tension. This equation requires calculation of
+masonry tensile strength, but there is no direct test for
+his value. As a substitute, the bed-joint mortar strength
+s used. This strength value only applies to the mortar,
+ot the masonry units. Thus, there is a great deal of
+ncertainty in diagonal tension-strength calculations.
+
+7.2.15 Preemptive Toe Crushing
+n this form of damage, compression at the toe causes
+rushing without significant ductile response, such as
+ocking. There are no reported experimental
+bservations of such behavior.
+The FEMA 273 equation for toe crushing is used. Post-
+crack displacement capacity is assumed to be negligible.
+
+7.2.16 Out-of-Plane Flexural Response
+Out-of-plane failures are common in URM buildings.
+Usually they occur due to the lack of adequate wall ties
+as discussed in Table 7-1. When floor and roof ties are
+adequate, the wall may fail due to out-of-plane bending
+between floor levels. One mode of failure observed in
+experiments is rigid-body out-of-plane rocking
+occurring on three cracks: one at the top of the wall, one
+at the bottom, and one at midheight. The ultimate limit
+state is that the walls rock too far and overturn.
+Important variables identified by ABK (1984) and
+Adham (1985) were the vertical stress on the wall, the
+height-to-thickness ratio of the wall, and the input
+velocity provided to the wall by the diaphragms. As
+rocking increases, the mortar and masonry units at the
+crack locations can degrade, and residual offsets can
+occur at the crack planes.
+ABK (1984) and Adham (1985) provide a graph, based
+on ABK (1981c), showing the relationship between the
+velocity at the top and bottom of the piers, the
+overburden ratio of superimposed load over wall load,
+and the height-to-thickness ratio. The graph indicates
+that walls meeting the requirements have a “98%
+probability of survival.” The authors did not provide
+relationships between damage and spectral acceleration
+or peak ground acceleration because input velocities
+were found to be a better predictor of wall performance.
+Therefore, it is difficult to relate damage to the spectral
+accelerations and nonlinear static procedures used in
+documents such as FEMA 273 for in-plane motions. As
+a result, the prescriptive h/t ratio concept is retained in
+this document.
+
+7.2.17 Other Modes
+A review of the literature provides a substantial number
+of specimens that cannot be easily placed in the above
+set of categories. Most common are tests that report
+“diagonal cracking” but do not specify stair-stepping
+bed-joint sliding, diagonal tension cracking, or
+diagonally-oriented compressive splitting cracks.
+In addition, given the geometric complexity and
+material variation inherent in unreinforced masonry
+walls, localized stress concentrations can develop that
+are difficult to predict.
