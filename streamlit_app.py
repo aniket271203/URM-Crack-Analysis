@@ -1120,6 +1120,20 @@ def load_fema_rag_agent(chroma_db_path: str = None):
 @st.cache_resource
 def load_pipeline(yolo_path, seg_path, class_path, rag_dir=None):
     """Load pipeline with caching"""
+    # Resolve relative paths to absolute paths anchored at this script's directory.
+    # This ensures paths work correctly regardless of the CWD when streamlit is launched.
+    _base = os.path.dirname(os.path.abspath(__file__))
+
+    def _abs(p):
+        if p and not os.path.isabs(p):
+            return os.path.join(_base, p)
+        return p
+
+    yolo_path  = _abs(yolo_path)
+    seg_path   = _abs(seg_path)
+    class_path = _abs(class_path)
+    rag_dir    = _abs(rag_dir)
+
     try:
         pipeline = CrackAnalysisPipeline(
             yolo_model_path=yolo_path,
