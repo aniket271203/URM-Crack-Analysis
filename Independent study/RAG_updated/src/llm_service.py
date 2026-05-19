@@ -12,7 +12,7 @@ class LLMService(ABC):
 
 class GeminiLLMService(LLMService):
     def __init__(self, api_key: str = None, model: str = "gemini-3-flash-preview"):
-        self.api_key = api_key or os.getenv("GOOGLE_API_KEY")
+        self.api_key = api_key or os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
         self.model = model
         
         try:

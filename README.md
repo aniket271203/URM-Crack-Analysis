@@ -1,266 +1,135 @@
-# Structural Crack Analysis System
+# URM Crack Analysis
 
-A comprehensive pipeline for structural crack detection, segmentation, classification, and analysis using deep learning and RAG (Retrieval-Augmented Generation).
+Automated structural assessment pipeline for **Unreinforced Masonry (URM)** walls. Detects, segments, measures, and diagnoses cracks from photographs using deep learning, brick-calibrated scaling, and FEMA 306-grounded RAG reasoning.
 
-## 🎯 Overview
-
-This system integrates three independent models into a unified pipeline:
-
-1. **Crack Detection (YOLO)**: Detects cracks in images with bounding boxes
-2. **Segmentation & Classification**: Segments crack regions and classifies them into 4 categories (vertical, horizontal, diagonal, step)
-3. **RAG Analysis**: Uses Gemini AI with document retrieval to determine crack causes and provide recommendations
-
-## 📁 Project Structure
+## Pipeline Overview
 
 ```
-Final_Combined_Model/
-├── Crack_Detection_YOLO/
-│   └── crack_yolo_train/
-│       ├── weights/
-│       │   └── best.pt              # YOLO detection model
-│       └── crack_detection_inference.py
+Image → YOLO Detection → DeepCrack Segmentation → Orientation Classification
+                              ↓                            ↓
+                    Brick-Calibrated Measurement    Crack Location Analysis
+                       (length, width, area)       (spatial mapping, PCA)
+                              ↓                            ↓
+                         ┌─────────────────────────────────┘
+                         ↓
+                  FEMA 306 RAG Diagnosis
+                  (damage type, severity, recommendations)
+```
+
+### Stage 1 — Crack Detection (YOLOv8)
+Fine-tuned `yolov8n` localises cracks in the image and returns bounding boxes.  
+mAP₅₀ = 0.962 on the validation set.
+
+### Stage 2 — Pixel-Level Segmentation (DeepCrack)
+A VGG-16-topology encoder with Hierarchical Side-Output fusion produces a probability map of crack pixels. Trained with Binary Focal Loss (γ = 2) for class-imbalance robustness.
+
+### Stage 3 — Orientation Classification
+A CNN classifier operating on the binary mask categorises the crack as **Vertical**, **Horizontal**, **Diagonal**, or **Stepped**.
+
+### Stage 4 — Brick-Calibrated Measurement
+Detects the brick coursing pattern (mortar lines, FFT, or interactive selection) to compute a **pixel → mm** scale factor. Then:
+- **Length** — skeleton extracted via morphological thinning; chain-code walk sums 1.0 for orthogonal and √2 for diagonal steps.
+- **Width** — dual method: Euclidean distance transform + perpendicular intensity profiling.
+- **Area** — crack pixel count × scale².
+
+### Stage 5 — Spatial Location Analysis
+Crack pixels are mapped onto a 5×5 spatial grid to produce a density heatmap. PCA-based endpoint detection and intensity-based origin inference determine propagation direction.
+
+### Stage 6 — FEMA 306 RAG Diagnosis
+A two-layer Retrieval-Augmented Generation engine (Gemini LLM + ChromaDB vector store over FEMA 306 documents) classifies the damage type, severity level, and produces an engineering-grade diagnostic report.
+
+## Project Structure
+
+```
+├── streamlit_app.py                  # Streamlit web interface
+├── pipeline_orchestrator.py          # End-to-end pipeline orchestrator
+├── brick_calibrated_measurement.py   # Measurement with brick-scale calibration
+├── crack_location_analyzer.py        # Spatial mapping & propagation analysis
+│
+├── Crack_Detection_YOLO/             # YOLOv8 detection model + weights
 ├── Masking_and_Classification_model/
-│   ├── pretrained_net_G.pth          # Segmentation model
-│   ├── crack_orientation_classifier.h5 # Classification model
-│   └── model_utils.py                 # Model architecture utilities
-├── Rag_and_Reasoning/
-│   └── crack_analysis_rag/
-│       ├── src/                       # RAG system source code
-│       └── data/                      # RAG knowledge base
-├── pipeline_orchestrator.py           # Main pipeline orchestrator
-├── streamlit_app.py                   # Streamlit web application
-├── requirements.txt                   # Python dependencies
-└── README.md                          # This file
+│   ├── pretrained_net_G.pth          # DeepCrack segmentation weights
+│   ├── crack_orientation_classifier.h5
+│   └── model_utils.py               # DeepCrackNet architecture
+│
+├── Rag_and_Reasoning/                # Original RAG system
+├── Independent study/
+│   ├── RAG_updated/                  # FEMA 306 RAG agent (ChromaDB + Gemini)
+│   └── WALL_Model/                   # Structural component detection (VLM)
+│
+├── Benchmark/                        # Evaluation scripts & test data
+├── Paper/                            # LaTeX source for the research paper
+├── Dataset_Generation/               # Synthetic crack generation tools
+└── requirements.txt
 ```
 
-## 🚀 Installation
+## Quick Start
 
-### 1. Clone the repository
-
-```bash
-cd /path/to/Final_Combined_Model
-```
-
-### 2. Create a virtual environment (recommended)
+### 1. Install dependencies
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+# CPU-only (recommended if no GPU):
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+pip install tensorflow-cpu
 
-### 3. Install dependencies
-
-```bash
+# Then install the rest:
 pip install -r requirements.txt
 ```
 
-**Note**: If you have a GPU and want to use FAISS with GPU support:
-```bash
-pip install faiss-gpu  # Instead of faiss-cpu
-```
-
-### 4. Set up environment variables
+### 2. Set up environment
 
 Create a `.env` file in the project root:
 
 ```env
-GOOGLE_API_KEY=your_gemini_api_key_here
-USE_GPU=true  # or false for CPU-only
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-To get a Gemini API key:
-1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Create a new API key
-3. Add it to your `.env` file
+Get a key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
-## 🎮 Usage
+### 3. Run the Streamlit app
 
-### Option 1: Streamlit Web App (Recommended)
-
-1. **Start the Streamlit app**:
 ```bash
 streamlit run streamlit_app.py
 ```
 
-2. **In the web interface**:
-   - Configure model paths in the sidebar (defaults should work)
-   - Click "🔄 Load Pipeline" to initialize all models
-   - Upload an image using the file uploader
-   - Click "🔍 Analyze Image" to run the complete pipeline
-   - View results in the main panel
+Then in the browser:
+1. Upload an image of a cracked wall
+2. (Optional) Select brick type and calibration method
+3. Click **Analyze** — results display inline
 
-### Option 2: Python Script
+### 4. CLI usage
 
-```python
-from pipeline_orchestrator import CrackAnalysisPipeline
-
-# Initialize pipeline
-pipeline = CrackAnalysisPipeline(
-    yolo_model_path="Crack_Detection_YOLO/crack_yolo_train/weights/best.pt",
-    segmentation_model_path="Masking_and_Classification_model/pretrained_net_G.pth",
-    classification_model_path="Masking_and_Classification_model/crack_orientation_classifier.h5",
-    rag_data_dir="Rag_and_Reasoning/crack_analysis_rag/data",
-    device='cuda'  # or 'cpu'
-)
-
-# Process an image
-results = pipeline.process_image(
-    image_path="path/to/your/image.jpg",
-    use_rag=True,
-    save_intermediate=True,
-    output_dir="output"
-)
-
-# Get summary
-summary = pipeline.get_summary(results)
-print(summary)
-```
-
-## 🔄 Pipeline Flow
-
-The complete pipeline follows these steps:
-
-1. **Crack Detection (YOLO)**
-   - Input: Original image
-   - Output: Bounding boxes around detected cracks
-   - If no cracks detected, pipeline stops
-
-2. **Image Segmentation**
-   - Input: Original image
-   - Output: Binary mask highlighting crack regions
-   - Uses DeepCrack segmentation model
-
-3. **Crack Classification**
-   - Input: Segmented mask
-   - Output: Crack type (vertical/horizontal/diagonal/step) with confidence
-   - Uses CNN classifier
-
-4. **RAG Analysis** (Optional)
-   - Input: Segmented mask + crack type
-   - Output: Comprehensive analysis including:
-     - Location analysis
-     - Root cause determination
-     - Safety assessment
-     - Recommendations
-
-## 📊 Output Format
-
-The pipeline returns a dictionary with the following structure:
-
-```python
-{
-    'success': bool,
-    'image_path': str,
-    'detection': {
-        'detections': list,  # List of bounding boxes
-        'num_cracks': int,
-        'crack_detected': bool
-    },
-    'segmentation': {
-        'mask': np.ndarray,  # Segmented mask
-        'mask_shape': tuple
-    },
-    'classification': {
-        'crack_type': str,  # 'vertical', 'horizontal', 'diagonal', 'step'
-        'confidence': float
-    },
-    'rag_analysis': {
-        'success': bool,
-        'summary': {
-            'location_analysis': str,
-            'cause_analysis': str,
-            'comprehensive_report': str
-        }
-    }
-}
-```
-
-## ⚙️ Configuration
-
-### Model Paths
-
-Default paths (can be changed in Streamlit sidebar or code):
-- YOLO: `Crack_Detection_YOLO/crack_yolo_train/weights/best.pt`
-- Segmentation: `Masking_and_Classification_model/pretrained_net_G.pth`
-- Classification: `Masking_and_Classification_model/crack_orientation_classifier.h5`
-- RAG Data: `Rag_and_Reasoning/crack_analysis_rag/data`
-
-### Device Selection
-
-- **GPU (CUDA)**: Faster processing, requires CUDA-compatible GPU
-- **CPU**: Slower but works on any machine
-
-Set via environment variable or in code:
-```python
-device = 'cuda'  # or 'cpu'
-```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Model loading errors**
-   - Ensure all model files exist at specified paths
-   - Check file permissions
-
-2. **CUDA/GPU errors**
-   - Install appropriate PyTorch version for your CUDA version
-   - Set `USE_GPU=false` in `.env` to use CPU
-
-3. **RAG system errors**
-   - Verify `GOOGLE_API_KEY` is set in `.env`
-   - Check internet connection (for Gemini API)
-   - Ensure RAG data directory exists and contains documents
-
-4. **Memory errors**
-   - Reduce batch size in model inference
-   - Use CPU instead of GPU
-   - Process smaller images
-
-### Dependencies Issues
-
-If you encounter import errors:
 ```bash
-pip install --upgrade -r requirements.txt
+# Brick-calibrated measurement (interactive brick selection)
+python brick_calibrated_measurement.py image.jpg --interactive --join-dist 30
+
+# Auto-detect bricks with a specific standard
+python brick_calibrated_measurement.py image.jpg --brick-type india_modular
 ```
 
-## 📝 Notes
+## Key Configuration
 
-- The first run may take longer as models are loaded into memory
-- RAG analysis requires internet connection for Gemini API
-- All models are loaded into memory at startup for faster inference
-- Intermediate results can be saved for debugging
+| Parameter | Default | Description |
+|---|---|---|
+| `--brick-type` | `india_modular` | Brick standard (`india_modular`, `uk_standard`, `us_standard`, `europe_nf`) |
+| `--join-dist` | `30` | Max pixel gap to bridge disconnected crack fragments |
+| `--threshold` | `40` | Segmentation binarisation threshold (0–255) |
+| `--interactive` | off | Manually click brick top/bottom edges for calibration |
+| `--device` | `cuda` | `cuda` or `cpu` |
 
-## 🔧 Development
+## Troubleshooting
 
-### Adding New Models
+| Problem | Fix |
+|---|---|
+| `No module named 'torch'` | `pip uninstall torch -y && pip install torch --index-url https://download.pytorch.org/whl/cpu` |
+| `No module named 'tensorflow'` | `pip uninstall tensorflow -y && pip install tensorflow` (or `tensorflow-cpu`) |
+| RAG agent fails to load | Ensure `GEMINI_API_KEY` is set in `.env` |
+| Brick auto-detection fails | Use `--interactive` flag to manually select a brick |
 
-To integrate additional models:
-1. Create a wrapper class similar to `SegmentationModel` or `ClassificationModel`
-2. Add it to `CrackAnalysisPipeline.__init__()`
-3. Integrate into `process_image()` method
+## Acknowledgments
 
-### Customizing RAG
-
-- Add documents to `Rag_and_Reasoning/crack_analysis_rag/data/`
-- Modify prompts in `gemini_analyzer.py`
-- Adjust retrieval parameters in `enhanced_retrieval.py`
-
-## 📄 License
-
-[Add your license information here]
-
-## 👥 Contributors
-
-[Add contributor information here]
-
-## 🙏 Acknowledgments
-
-- YOLOv8 by Ultralytics
-- DeepCrack segmentation model
-- Google Gemini API
-- Streamlit framework
-
-
-
-
+- [DeepCrack](https://github.com/yhlleo/DeepCrack) — Hierarchical feature learning for crack segmentation
+- [YOLOv8](https://github.com/ultralytics/ultralytics) — Real-time object detection
+- [FEMA 306](https://www.fema.gov/) — Evaluation of earthquake-damaged concrete and masonry wall buildings
+- [Google Gemini](https://ai.google.dev/) — Large language model for RAG reasoning
+- [Streamlit](https://streamlit.io/) — Web application framework
