@@ -40,6 +40,43 @@ class StructuralAgent:
             
         return " ".join(query_parts)
 
+    def _rewrite_query_with_llm(self, raw_query: str, input_data: Dict[str, str]) -> str:
+        """
+        Uses Gemini to rewrite the raw observation-based query into clean FEMA-306
+        structural-engineering vocabulary suitable for vector-store retrieval.
+
+        Falls back to the original raw_query if the LLM call fails.
+        """
+        system_prompt = (
+            "You are a structural engineering expert specializing in FEMA 306 masonry wall assessment. "
+            "Your task is to rewrite a raw observation string into a concise, precise retrieval query "
+            "using standard FEMA 306 / structural-engineering terminology. "
+            "The query will be used to retrieve relevant failure-mode classification guides from a vector database. "
+            "Rules:\n"
+            "- Output ONLY the rewritten query string — no explanation, no bullet points, no JSON.\n"
+            "- Use FEMA 306 failure-mode vocabulary: Diagonal Tension, Rocking, Bed-Joint Sliding, "
+            "Corner Compression, Spandrel Flexure, Out-of-Plane Flexure, etc.\n"
+            "- Include material type (URM, RC, etc.) and crack orientation.\n"
+            "- Keep it under 30 words."
+        )
+
+        user_prompt = (
+            f"Field observations (JSON):\n{json.dumps(input_data, indent=2)}\n\n"
+            f"Raw query string (auto-generated):\n{raw_query}\n\n"
+            "Rewrite the query using precise FEMA 306 structural engineering terminology:"
+        )
+
+        try:
+            rewritten = self.llm_service.generate_response(user_prompt, system_prompt).strip()
+            # Basic sanity check — if the LLM returned something suspicious, fall back
+            if not rewritten or len(rewritten) > 300 or rewritten.lower().startswith("error"):
+                raise ValueError(f"Suspicious LLM output: {rewritten[:100]}")
+            print(f"Query rewritten by Gemini: '{rewritten}'")
+            return rewritten
+        except Exception as e:
+            print(f"Warning: Query rewriting failed ({e}). Using raw query.")
+            return raw_query
+
     def _calculate_severity(self, width_str: Optional[str]) -> tuple[str, str]:
         """
         Parses crack width and returns (Severity, Scope).
@@ -77,14 +114,27 @@ class StructuralAgent:
             print(f"Error parsing width: {e}")
             return "Unknown", "All Levels"
 
-    def diagnose(self, input_data: Dict[str, str]) -> Optional[DiagnosisResult]:
+    def diagnose(self, input_data: Dict[str, str], use_llm_rewrite: bool = True) -> Optional["DiagnosisResult"]:
         """
         Diagnoses the failure mode by comparing observations against multiple retrieved Classification Guides.
+
+        Args:
+            input_data: Structured observation dict (material, orientation, width, location, description).
+            use_llm_rewrite: If True, Gemini rewrites the raw query into FEMA 306 vocabulary before
+                             searching the vector store. If False, the raw formatted query is used directly.
         """
         # 1. Retrieve relevant sections
-        query = self._format_query(input_data)
+        raw_query = self._format_query(input_data)
+        print(f"Raw query (before rewrite): '{raw_query}'")
+
+        if use_llm_rewrite:
+            # LLM-powered query rewriting — converts noisy vision-pipeline output into
+            # clean FEMA 306 structural-engineering terminology for better retrieval.
+            query = self._rewrite_query_with_llm(raw_query, input_data)
+        else:
+            query = raw_query
+            print("LLM query rewriting disabled — using raw query.")
         print(f"Retrieving documents for query: '{query}'")
-        
         # Retrieve more results to ensure we catch the right guide even if it's ranked 3rd or 4th
         # Note: Not using is_failure_mode filter since documents may not have this metadata field
         results = self.retriever.query_with_score(

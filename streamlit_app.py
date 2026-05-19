@@ -2265,7 +2265,20 @@ def main():
                 **Location:** {fema_input['location']} _(from: {metadata.get('location_source', 'unknown')})_
                 **Description:** {fema_input['description']}
                 """)
-            
+
+            # ── LLM Query Rewriting toggle ───────────────────────────────────────────
+            use_llm_rewrite = st.checkbox(
+                "🤖 Use AI Query Rewriting",
+                value=True,
+                key="use_llm_rewrite",
+                help=(
+                    "When enabled, Gemini rewrites the raw observation query into "
+                    "precise FEMA 306 structural-engineering terminology before "
+                    "searching the vector store. Disable to use the raw query directly."
+                )
+            )
+            # ────────────────────────────────────────────────────────────────────────
+
             # Run FEMA diagnosis
             if st.button("🔍 Run FEMA 306 Diagnosis", type="primary", key="run_fema_diagnosis"):
                 with st.spinner("Running FEMA 306 structural diagnosis..."):
@@ -2288,8 +2301,11 @@ def main():
                                 "description": fema_input["description"]
                             }
                             
-                            # Run diagnosis
-                            diagnosis = st.session_state.fema_rag_agent.diagnose(diagnosis_input)
+                            # Run diagnosis (pass the rewrite toggle)
+                            diagnosis = st.session_state.fema_rag_agent.diagnose(
+                                diagnosis_input,
+                                use_llm_rewrite=use_llm_rewrite
+                            )
                             st.session_state.fema_diagnosis = diagnosis
                             
                             if diagnosis:
